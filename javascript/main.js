@@ -509,30 +509,33 @@
   const chatApp = document.getElementById("chatApp");
   const closeBtn = document.getElementById("chatClose");
 
-  launcher.onclick = () => chatApp.classList.toggle("active");
-  closeBtn.onclick = () => chatApp.classList.remove("active");
+  if (launcher && chatApp && closeBtn) {
+    launcher.onclick = () => chatApp.classList.toggle("active");
+    closeBtn.onclick = () => chatApp.classList.remove("active");
+  }
 
 
 
   // Messages Modal
 
+  const openBtn = document.getElementById("openMessages");
+  const modal = document.getElementById("messagesModal");
+  const closeMsgBtn = document.getElementById("closeMessages");
 
-const openBtn = document.getElementById("openMessages");
-const modal = document.getElementById("messagesModal");
-const closeBtn = document.getElementById("closeMessages");
+  if (openBtn && modal && closeMsgBtn) {
+    openBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.classList.add("active");
+    });
 
-openBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  modal.classList.add("active");
-});
+    closeMsgBtn.addEventListener("click", () => {
+      modal.classList.remove("active");
+    });
 
-closeBtn.addEventListener("click", () => {
-  modal.classList.remove("active");
-});
-
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.classList.remove("active");
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("active");
+      }
+    });
   }
-});
 
