@@ -485,21 +485,18 @@
 
 .chat-app {
   position: fixed;
-  bottom: 90px;
-  right: 24px;
-  width: 380px;
-  height: 600px;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 999;
+  top: 50%;
+  left: 50%;
+  width: 1200px;
+  height: 80vh;
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+  transition: 0.25s ease;
 }
 
 .chat-app.active {
-  display: flex;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .chat-app-header {
@@ -521,6 +518,26 @@
 
     </style>
 </head>
+
+<div class="chat-launcher" id="chatLauncher">💬</div>
+
+<div class="chat-app" id="chatApp">
+  <div class="chat-app-header">
+    <span>Messages</span>
+    <button id="chatClose">✕</button>
+  </div>
+
+  <iframe src="messages.html" class="chat-frame"></iframe>
+</div>
+
+<script>
+  const launcher = document.getElementById("chatLauncher");
+  const chatApp = document.getElementById("chatApp");
+  const closeBtn = document.getElementById("chatClose");
+
+  launcher.onclick = () => chatApp.classList.toggle("active");
+  closeBtn.onclick = () => chatApp.classList.remove("active");
+</script>
 
 <body>
 
