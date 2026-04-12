@@ -479,3 +479,28 @@
       });
     });
   });
+
+
+  // booking portal only
+
+  const tabs = document.querySelectorAll(".tab-btn");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+
+      // remove active from all buttons
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // hide all content
+      contents.forEach(c => c.classList.remove("active"));
+
+      // show selected tab
+      const target = document.getElementById(tab.dataset.tab);
+      target.classList.add("active");
+    });
+  });
+
+
+  

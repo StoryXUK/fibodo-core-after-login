@@ -2507,3 +2507,33 @@ footer {
     left: 0;
   }
 }
+
+
+/* booking portal only */
+
+.cta-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.tab-btn.active {
+  background: #111;
+  color: #fff;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
