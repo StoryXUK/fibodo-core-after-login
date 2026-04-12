@@ -8,6 +8,19 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 
+<div class="messages-modal" id="messagesModal">
+  <div class="messages-modal-content">
+
+    <div class="messages-modal-header">
+      <span>Messages</span>
+      <button id="closeMessages">✕</button>
+    </div>
+
+    <iframe src="messages.html" class="messages-frame"></iframe>
+
+  </div>
+</div>
+
 <body>
 
   
@@ -31,11 +44,11 @@
       <a href="blog.html">Blog</a>
 
       <div class="header-icons header-icons--mobile">
-        <a href="messages.html" target="_blank" class="header-icon" aria-label="Messages">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-        </a>
+        <a href="#" id="openMessages" class="header-icon" aria-label="Messages">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</a>
 
         <a href="notifications.html" class="header-icon" aria-label="Notifications">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
