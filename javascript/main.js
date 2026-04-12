@@ -503,4 +503,12 @@
   });
 
 
+  // Messages
+
+  const launcher = document.getElementById("chatLauncher");
+  const chatApp = document.getElementById("chatApp");
+  const closeBtn = document.getElementById("chatClose");
+
+  launcher.onclick = () => chatApp.classList.toggle("active");
+  closeBtn.onclick = () => chatApp.classList.remove("active");
   
