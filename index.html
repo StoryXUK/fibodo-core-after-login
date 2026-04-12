@@ -9,7 +9,18 @@
 </head>
 
 <body>
+<div class="chat-launcher" id="chatLauncher">
+  💬
+</div>
 
+<div class="chat-app" id="chatApp">
+  <div class="chat-app-header">
+    <span>Messages</span>
+    <button id="chatClose">✕</button>
+  </div>
+
+  <iframe src="messages.html" class="chat-frame"></iframe>
+</div>
 
 
   <header>
@@ -31,7 +42,7 @@
         <a href="blog.html">Blog</a>
 
         <div class="header-icons header-icons--mobile">
-          <a href="messages.html" class="header-icon" aria-label="Messages">
+          <a href="messages.html" target="_blank" class="header-icon" aria-label="Messages">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
@@ -74,7 +85,7 @@
       </nav>
 
       <div class="header-right">
-        <a href="messages.html" class="header-icon" aria-label="Messages">
+        <a href="messages.html" target="_blank" class="header-icon" aria-label="Messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
