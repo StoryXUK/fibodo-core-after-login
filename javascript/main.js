@@ -516,26 +516,5 @@
 
 
 
-  // Messages Modal
 
-  const openBtn = document.getElementById("openMessages");
-  const modal = document.getElementById("messagesModal");
-  const closeMsgBtn = document.getElementById("closeMessages");
-
-  if (openBtn && modal && closeMsgBtn) {
-    openBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      modal.classList.add("active");
-    });
-
-    closeMsgBtn.addEventListener("click", () => {
-      modal.classList.remove("active");
-    });
-
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("active");
-      }
-    });
-  }
 

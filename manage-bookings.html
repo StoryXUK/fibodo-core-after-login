@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>fibodo — Manage Bookings</title>
+  <style>
+    :root {
+      --sidebar-bg: #1d1d1f;
+      --topbar-bg: #1d1d1f;
+      --page-bg: #f3f3f5;
+      --card-bg: #ffffff;
+      --border: #e6e7eb;
+      --text: #111315;
+      --muted: #6f7681;
+      --primary: #2f80d1;
+      --primary-soft: #eaf3fc;
+      --hover: #f6f7f8;
+      --shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --sidebar-width: 240px;
+      --topbar-height: 60px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 0;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px 18px;
+    }
+
+    .menu-toggle {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: #eef3e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .nav-link.active {
+      background: var(--primary);
+      border-left-color: #8fc1f0;
+      color: #fff;
+    }
+
+    .nav-link svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 12px;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: var(--topbar-height);
+      background: var(--topbar-bg);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 22px;
+      gap: 18px;
+    }
+
+    .topbar-icon {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .topbar-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ff3b30;
+      color: #fff;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .topbar-user {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .topbar-user svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .page {
+      padding: 26px;
+    }
+
+    .page-inner {
+      max-width: 1120px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      line-height: 1.1;
+      font-weight: 700;
+      margin: 0 0 26px;
+      letter-spacing: -0.02em;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 26px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      margin: -4px 0 24px;
+      padding-bottom: 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      position: relative;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 14px 16px;
+      cursor: pointer;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 999px;
+    }
+
+    .bookings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .bookings-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: #9aa2ad;
+      fill: none;
+      stroke-width: 2;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 0 14px 0 40px;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #c8d7e6;
+      box-shadow: 0 0 0 3px rgba(47, 128, 209, 0.08);
+    }
+
+    .tab-panel {
+      display: none;
+      min-height: 520px;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .empty-state {
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .empty-pill {
+      border: 1px solid #d7dde4;
+      background: #f5f8fb;
+      color: #5f6975;
+      padding: 18px 26px;
+      border-radius: 14px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .booking-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .booking-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      background: #fff;
+    }
+
+    .booking-main {
+      min-width: 0;
+    }
+
+    .booking-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+
+    .booking-meta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .booking-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .booking-meta svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .booking-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #f1f4f7;
+      color: #435160;
+    }
+
+    .status-pill.upcoming {
+      background: #e9f3fd;
+      color: #2469ae;
+    }
+
+    .status-pill.cancelled {
+      background: #fdeeee;
+      color: #c13d3d;
+    }
+
+    .status-pill.completed {
+      background: #edf6ef;
+      color: #2f7b45;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--hover);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2671ba;
+      border-color: #2671ba;
+    }
+
+    .btn-soft {
+      background: #f7f9fb;
+    }
+
+    @media (max-width: 1024px) {
+      .app {
+        grid-template-columns: 84px 1fr;
+      }
+
+      .nav-link span {
+        display: none;
+      }
+
+      .sidebar-top {
+        justify-content: center;
+      }
+
+      .brand-badge {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .page {
+        padding: 18px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .booking-item {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <button class="menu-toggle" aria-label="Toggle navigation">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18"></path>
+            <path d="M3 12h18"></path>
+            <path d="M3 18h18"></path>
+          </svg>
+        </button>
+
+        <div class="brand-badge">
+          <img src="images/logo.png" alt="Logo">
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 13.5 12 4l9 9.5"></path>
+            <path d="M5 11.5V20h14v-8.5"></path>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="contacts.html" class="nav-link">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+            <circle cx="12" cy="8" r="4"></circle>
+          </svg>
+          <span>Contacts</span>
+        </a>
+
+        <a href="manage-bookings.html" class="nav-link active">
+          <svg viewBox="0 0 24 24">
+            <path d="M8 2v4"></path>
+            <path d="M16 2v4"></path>
+            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+            <path d="M3 10h18"></path>
+          </svg>
+          <span>Manage Bookings</span>
+        </a>
+
+        <a href="wallet.html" class="nav-link">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 7h15a3 3 0 0 1 3 3v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"></path>
+            <path d="M16 12h5"></path>
+          </svg>
+          <span>Wallet &amp; Vouchers</span>
+        </a>
+
+        <a href="messages.html" class="nav-link">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Messages</span>
+        </a>
+
+        <a href="profile-details.html" class="nav-link">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>Profile Details</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="help-support.html" class="nav-link">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
+          <span>Help &amp; Support</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <a href="messages.html" class="topbar-icon" aria-label="Messages">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </a>
+
+        <a href="notifications.html" class="topbar-icon" aria-label="Notifications">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+            <path d="M9 17a3 3 0 0 0 6 0"></path>
+          </svg>
+          <span class="notification-badge">1</span>
+        </a>
+
+        <a href="account-details.html" class="topbar-user">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>John Jones</span>
+        </a>
+      </header>
+
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="page-title">Manage bookings</h1>
+
+          <div class="card">
+            <div class="tabs">
+              <button class="tab-btn active" data-tab="all">All</button>
+              <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+              <button class="tab-btn" data-tab="cancelled">Cancelled</button>
+              <button class="tab-btn" data-tab="completed">Completed</button>
+            </div>
+
+            <div class="tab-panel active" id="all">
+              <div class="bookings-header">
+                <h2 class="bookings-title">All Bookings (<span id="allCount">0</span>)</h2>
+
+                <div class="search-wrap">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                  <input type="text" class="search-input" placeholder="Search" data-search="all">
+                </div>
+              </div>
+
+              <div class="booking-list" id="allList"></div>
+
+              <div class="empty-state" id="allEmpty">
+                <div class="empty-pill">You don't have any bookings yet</div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="upcoming">
+              <div class="bookings-header">
+                <h2 class="bookings-title">Upcoming Bookings (<span id="upcomingCount">2</span>)</h2>
+
+                <div class="search-wrap">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                  <input type="text" class="search-input" placeholder="Search" data-search="upcoming">
+                </div>
+              </div>
+
+              <div class="booking-list" id="upcomingList">
+                <div class="booking-item" data-title="Bikram Yoga Morning Class">
+                  <div class="booking-main">
+                    <h3 class="booking-title">Bikram Yoga Morning Class</h3>
+                    <div class="booking-meta">
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18"></path></svg>
+                        14 Apr 2026
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
+                        07:00 AM
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                        London Yoga Studio
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="booking-actions">
+                    <span class="status-pill upcoming">Upcoming</span>
+                    <a href="#" class="btn btn-soft">View</a>
+                    <a href="#" class="btn">Reschedule</a>
+                  </div>
+                </div>
+
+                <div class="booking-item" data-title="1:1 Personal Training">
+                  <div class="booking-main">
+                    <h3 class="booking-title">1:1 Personal Training</h3>
+                    <div class="booking-meta">
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18"></path></svg>
+                        16 Apr 2026
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
+                        06:30 PM
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                        PT Exp Gym
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="booking-actions">
+                    <span class="status-pill upcoming">Upcoming</span>
+                    <a href="#" class="btn btn-soft">View</a>
+                    <a href="#" class="btn">Cancel</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="empty-state" id="upcomingEmpty" style="display:none;">
+                <div class="empty-pill">You don't have any upcoming bookings</div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="cancelled">
+              <div class="bookings-header">
+                <h2 class="bookings-title">Cancelled Bookings (<span id="cancelledCount">1</span>)</h2>
+
+                <div class="search-wrap">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                  <input type="text" class="search-input" placeholder="Search" data-search="cancelled">
+                </div>
+              </div>
+
+              <div class="booking-list" id="cancelledList">
+                <div class="booking-item" data-title="Evening Flow Yoga">
+                  <div class="booking-main">
+                    <h3 class="booking-title">Evening Flow Yoga</h3>
+                    <div class="booking-meta">
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18"></path></svg>
+                        08 Apr 2026
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
+                        06:00 PM
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                        London Yoga Studio
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="booking-actions">
+                    <span class="status-pill cancelled">Cancelled</span>
+                    <a href="#" class="btn btn-soft">View</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="empty-state" id="cancelledEmpty" style="display:none;">
+                <div class="empty-pill">You don't have any cancelled bookings</div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="completed">
+              <div class="bookings-header">
+                <h2 class="bookings-title">Completed Bookings (<span id="completedCount">1</span>)</h2>
+
+                <div class="search-wrap">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                  <input type="text" class="search-input" placeholder="Search" data-search="completed">
+                </div>
+              </div>
+
+              <div class="booking-list" id="completedList">
+                <div class="booking-item" data-title="Reformer Pilates Intro">
+                  <div class="booking-main">
+                    <h3 class="booking-title">Reformer Pilates Intro</h3>
+                    <div class="booking-meta">
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18"></path></svg>
+                        01 Apr 2026
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
+                        09:30 AM
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                        Wellness Room
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="booking-actions">
+                    <span class="status-pill completed">Completed</span>
+                    <a href="#" class="btn btn-soft">View</a>
+                    <a href="#" class="btn btn-primary">Book Again</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="empty-state" id="completedEmpty" style="display:none;">
+                <div class="empty-pill">You don't have any completed bookings</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        tabButtons.forEach(btn => btn.classList.remove("active"));
+        tabPanels.forEach(panel => panel.classList.remove("active"));
+
+        button.classList.add("active");
+        document.getElementById(button.dataset.tab).classList.add("active");
+      });
+    });
+
+    const searchInputs = document.querySelectorAll(".search-input");
+
+    searchInputs.forEach(input => {
+      input.addEventListener("input", () => {
+        const tab = input.dataset.search;
+        const query = input.value.toLowerCase().trim();
+        const list = document.getElementById(tab + "List");
+        const empty = document.getElementById(tab + "Empty");
+
+        if (!list) return;
+
+        const items = list.querySelectorAll(".booking-item");
+        let visibleCount = 0;
+
+        items.forEach(item => {
+          const title = item.dataset.title.toLowerCase();
+          const match = title.includes(query);
+          item.style.display = match ? "" : "none";
+          if (match) visibleCount++;
+        });
+
+        if (items.length === 0 || visibleCount === 0) {
+          list.style.display = "none";
+          empty.style.display = "flex";
+        } else {
+          list.style.display = "grid";
+          empty.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
