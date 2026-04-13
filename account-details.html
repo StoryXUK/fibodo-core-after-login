@@ -1,27 +1,27 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>fibodo — Account Details</title>
+  <link rel="stylesheet" href="css/main.css">
   <style>
     :root {
-      --sidebar-bg: #1d1d1f;
-      --topbar-bg: #1d1d1f;
-      --page-bg: #f3f3f5;
-      --card-bg: #ffffff;
+      --bg: #f3f3f5;
+      --panel: #ffffff;
+      --panel-soft: #f7f8fa;
       --border: #e6e7eb;
       --text: #111315;
       --muted: #6f7681;
       --primary: #2f80d1;
-      --primary-soft: #eaf3fc;
+      --primary-hover: #2671ba;
       --hover: #f6f7f8;
       --shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
       --radius-lg: 18px;
       --radius-md: 14px;
       --radius-sm: 10px;
-      --sidebar-width: 240px;
-      --topbar-height: 60px;
+      --max-width: 1280px;
     }
 
     * {
@@ -33,7 +33,7 @@
       margin: 0;
       padding: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--page-bg);
+      background: var(--bg);
       color: var(--text);
     }
 
@@ -41,189 +41,20 @@
       min-height: 100vh;
     }
 
-    .app {
-      display: grid;
-      grid-template-columns: var(--sidebar-width) 1fr;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      background: var(--sidebar-bg);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      padding: 14px 0;
-    }
-
-    .sidebar-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 18px 18px;
-    }
-
-    .menu-toggle {
-      width: 36px;
-      height: 36px;
-      border: 0;
-      background: transparent;
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255,255,255,0.08);
-    }
-
-    .brand-badge {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: #eef3e6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .brand-badge img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-top: 8px;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
-      color: rgba(255,255,255,0.92);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      border-left: 3px solid transparent;
-      transition: 0.2s ease;
-    }
-
-    .nav-link:hover {
-      background: rgba(255,255,255,0.06);
-    }
-
-    .nav-link.active {
-      background: var(--primary);
-      border-left-color: #8fc1f0;
-      color: #fff;
-    }
-
-    .nav-link svg {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding-top: 12px;
-    }
-
-    .main {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .topbar {
-      height: var(--topbar-height);
-      background: var(--topbar-bg);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 22px;
-      gap: 18px;
-    }
-
-    .topbar-icon {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .topbar-icon svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-    }
-
-    .notification-badge {
-      position: absolute;
-      top: -6px;
-      right: -8px;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: #ff3b30;
-      color: #fff;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 5px;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .topbar-user {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .topbar-user svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-    }
-
     .page {
-      padding: 26px;
+      padding: 34px 20px 40px;
     }
 
     .page-inner {
-      max-width: 1120px;
+      max-width: var(--max-width);
+      margin: 0 auto;
     }
 
     .page-title {
       font-size: 28px;
       line-height: 1.1;
       font-weight: 700;
-      margin: 0 0 6px;
+      margin: 0 0 8px;
       letter-spacing: -0.02em;
     }
 
@@ -234,10 +65,11 @@
     }
 
     .card {
-      background: var(--card-bg);
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
     .profile-hero {
@@ -285,12 +117,13 @@
       object-fit: cover;
     }
 
-    .profile-name {
+    .profile-name-large {
       color: #fff;
       font-size: 20px;
       font-weight: 600;
       letter-spacing: -0.01em;
       margin: 0;
+      white-space: nowrap;
     }
 
     .profile-refresh {
@@ -316,28 +149,23 @@
       stroke-width: 2;
     }
 
-    .account-card {
-      overflow: hidden;
-    }
-
     .tabs {
       display: flex;
-      gap: 8px;
+      gap: 24px;
       border-bottom: 1px solid var(--border);
-      padding: 0 18px;
+      padding: 0 24px;
       flex-wrap: wrap;
     }
 
     .tab-btn {
-      position: relative;
       appearance: none;
       border: 0;
       background: transparent;
-      color: var(--text);
+      color: var(--muted);
       font-size: 15px;
-      font-weight: 600;
-      padding: 18px 8px 14px;
-      margin-right: 24px;
+      font-weight: 500;
+      padding: 18px 0 14px;
+      position: relative;
       cursor: pointer;
     }
 
@@ -351,14 +179,14 @@
       left: 0;
       right: 0;
       bottom: -1px;
-      height: 3px;
+      height: 2px;
       background: var(--primary);
       border-radius: 999px;
     }
 
     .tab-panel {
       display: none;
-      padding: 26px;
+      padding: 24px;
     }
 
     .tab-panel.active {
@@ -445,15 +273,30 @@
       font-size: 16px;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-      background: #eef3f8;
-      color: #506070;
+    .membership-item,
+    .setting-item,
+    .detail-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      background: #fff;
+    }
+
+    .membership-title,
+    .setting-title,
+    .detail-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .membership-meta,
+    .setting-meta,
+    .detail-meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
     }
 
     .form-grid {
@@ -521,7 +364,7 @@
       padding: 0 16px;
       border-radius: 10px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
@@ -541,8 +384,8 @@
     }
 
     .btn-primary:hover {
-      background: #2671ba;
-      border-color: #2671ba;
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
     }
 
     .qr-box {
@@ -557,29 +400,6 @@
         linear-gradient(-45deg, transparent 75%, #111 75%) 0 0 / 24px 24px,
         #fff;
       margin-top: 8px;
-    }
-
-    .membership-item,
-    .setting-item {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 14px;
-      background: #fff;
-    }
-
-    .membership-title,
-    .setting-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin: 0 0 4px;
-    }
-
-    .membership-meta,
-    .setting-meta {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0;
     }
 
     .setting-row {
@@ -633,35 +453,9 @@
       transform: translateX(20px);
     }
 
-    @media (max-width: 1024px) {
-      .app {
-        grid-template-columns: 84px 1fr;
-      }
-
-      .nav-link span {
-        display: none;
-      }
-
-      .sidebar-top {
-        justify-content: center;
-      }
-
-      .brand-badge {
-        display: none;
-      }
-    }
-
     @media (max-width: 768px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        display: none;
-      }
-
       .page {
-        padding: 18px;
+        padding: 24px 16px 32px;
       }
 
       .page-title {
@@ -678,7 +472,7 @@
         height: 72px;
       }
 
-      .profile-name {
+      .profile-name-large {
         font-size: 18px;
       }
 
@@ -691,332 +485,368 @@
       }
 
       .tabs {
-        padding: 0 14px;
-      }
-
-      .tab-btn {
-        margin-right: 14px;
+        gap: 22px;
+        padding: 0 18px;
       }
     }
   </style>
 </head>
+
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="sidebar-top">
-        <button class="menu-toggle" aria-label="Toggle navigation">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6h18"></path>
-            <path d="M3 12h18"></path>
-            <path d="M3 18h18"></path>
-          </svg>
-        </button>
 
-        <div class="brand-badge">
-          <img src="images/logo.png" alt="Logo">
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <div class="logo">LOGO</div>
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-overlay" id="navOverlay"></div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="blog.html">Blog</a>
+
+        <div class="header-icons header-icons--mobile">
+          <a href="messages.html" class="header-icon" aria-label="Messages">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </a>
+
+          <a href="notifications.html" class="header-icon" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+              <path d="M9 17a3 3 0 0 0 6 0"></path>
+            </svg>
+          </a>
+
+          <div class="profile-dropdown mobile-profile-dropdown">
+            <button class="profile-toggle" aria-label="Open profile menu" type="button">
+              <span class="profile-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21a8 8 0 0 0-16 0"></path>
+                  <circle cx="12" cy="8" r="4"></circle>
+                </svg>
+              </span>
+              <span class="profile-name">James Murphy</span>
+            </button>
+
+            <div class="profile-menu">
+              <a href="account-details.html">Account details</a>
+              <a href="change-password.html">Change Password</a>
+              <a href="dashboard.html">Dashboard</a>
+              <a href="contacts.html">Contacts</a>
+              <a href="manage-bookings.html">Manage Bookings</a>
+              <a href="wallet.html">Wallet</a>
+              <a href="vouchers.html">Vouchers</a>
+              <a href="messages.html">Messages</a>
+              <a href="profile-details.html">Profile Details</a>
+              <a href="help-support.html">Help &amp; Support</a>
+              <div class="profile-menu-divider"></div>
+              <a href="logout.html" class="logout-link">Logout</a>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <nav class="sidebar-nav">
-        <a href="dashboard.html" class="nav-link">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 13.5 12 4l9 9.5"></path>
-            <path d="M5 11.5V20h14v-8.5"></path>
-          </svg>
-          <span>Dashboard</span>
-        </a>
-
-        <a href="contacts.html" class="nav-link">
-          <svg viewBox="0 0 24 24">
-            <path d="M20 21a8 8 0 0 0-16 0"></path>
-            <circle cx="12" cy="8" r="4"></circle>
-          </svg>
-          <span>Contacts</span>
-        </a>
-
-        <a href="manage-bookings.html" class="nav-link">
-          <svg viewBox="0 0 24 24">
-            <path d="M8 2v4"></path>
-            <path d="M16 2v4"></path>
-            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
-            <path d="M3 10h18"></path>
-          </svg>
-          <span>Manage Bookings</span>
-        </a>
-
-        <a href="wallet.html" class="nav-link">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 7h15a3 3 0 0 1 3 3v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"></path>
-            <path d="M16 12h5"></path>
-          </svg>
-          <span>Wallet &amp; Vouchers</span>
-        </a>
-
-        <a href="messages.html" class="nav-link">
-          <svg viewBox="0 0 24 24">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-          <span>Messages</span>
-        </a>
-
-        <a href="account-details.html" class="nav-link active">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="4"></circle>
-            <path d="M4 20a8 8 0 0 1 16 0"></path>
-          </svg>
-          <span>Profile Details</span>
-        </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <a href="help-support.html" class="nav-link">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="9"></circle>
-            <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4"></path>
-            <path d="M12 17h.01"></path>
-          </svg>
-          <span>Help &amp; Support</span>
-        </a>
-      </div>
-    </aside>
-
-    <main class="main">
-      <header class="topbar">
-        <a href="messages.html" class="topbar-icon" aria-label="Messages">
-          <svg viewBox="0 0 24 24">
+      <div class="header-right">
+        <a href="messages.html" class="header-icon" aria-label="Messages">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
         </a>
 
-        <a href="notifications.html" class="topbar-icon" aria-label="Notifications">
-          <svg viewBox="0 0 24 24">
+        <a href="notifications.html" class="header-icon" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
             <path d="M9 17a3 3 0 0 0 6 0"></path>
           </svg>
-          <span class="notification-badge">1</span>
         </a>
 
-        <a href="account-details.html" class="topbar-user">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="4"></circle>
-            <path d="M4 20a8 8 0 0 1 16 0"></path>
-          </svg>
-          <span>John Jones</span>
-        </a>
-      </header>
+        <div class="profile-dropdown">
+          <button class="profile-toggle" id="profileToggle" aria-label="Open profile menu" type="button">
+            <span class="profile-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21a8 8 0 0 0-16 0"></path>
+                <circle cx="12" cy="8" r="4"></circle>
+              </svg>
+            </span>
+            <span class="profile-name">James Murphy</span>
+          </button>
 
-      <section class="page">
-        <div class="page-inner">
-          <h1 class="page-title">Account Details</h1>
-          <p class="page-subtitle">View and manage your current user profile</p>
+          <div class="profile-menu">
+            <a href="account-details.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 20a8 8 0 0 1 16 0" /></svg></span>Account details</a>
+            <a href="change-password.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></span>Change Password</a>
+            <a href="dashboard.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg></span>Dashboard</a>
+            <a href="contacts.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" /><path d="M17 11a4 4 0 1 0 0-8" /><path d="M3 20a6 6 0 0 1 12 0" /><path d="M17 20a6 6 0 0 0-4-5.6" /></svg></span>Contacts</a>
+            <a href="manage-bookings.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg></span>Manage Bookings</a>
+            <a href="wallet.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="17" cy="12" r="2" /></svg></span>Wallet</a>
+            <a href="vouchers.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M3 9h18v6H3z" /><path d="M7 9v6M17 9v6" /></svg></span>Vouchers</a>
+            <a href="messages.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></span>Messages</a>
+            <a href="profile-details.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" /><path d="M5.5 21a6.5 6.5 0 0 1 13 0" /></svg></span>Profile Details</a>
+            <a href="help-support.html"><span class="menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" /><path d="M12 17h.01" /></svg></span>Help &amp; Support</a>
+            <div class="profile-menu-divider"></div>
+            <a href="logout.html" class="logout-link"><span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="M16 17l5-5-5-5" /><path d="M21 12H9" /></svg></span>Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-          <div class="card profile-hero">
-            <div class="profile-banner">
-              <div class="profile-banner-content">
-                <div class="profile-logo">
-                  <img src="images/logo.png" alt="Harmony Yoga">
-                </div>
-                <h2 class="profile-name">John Jones</h2>
-              </div>
+  <main class="page">
+    <div class="page-inner">
+      <h1 class="page-title">Account Details</h1>
+      <p class="page-subtitle">View and manage your current user profile</p>
 
-              <button class="profile-refresh" aria-label="Refresh profile">
-                <svg viewBox="0 0 24 24">
-                  <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
-                  <path d="M21 3v6h-6"></path>
-                </svg>
-              </button>
+      <section class="card profile-hero">
+        <div class="profile-banner">
+          <div class="profile-banner-content">
+            <div class="profile-logo">
+              <img src="images/logo.png" alt="Harmony Yoga">
+            </div>
+            <h2 class="profile-name-large">John Jones</h2>
+          </div>
+
+          <button class="profile-refresh" aria-label="Refresh profile">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
+              <path d="M21 3v6h-6"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="family-members">Family Members</button>
+          <button class="tab-btn" data-tab="card-details">Card Details</button>
+          <button class="tab-btn" data-tab="memberships">Memberships</button>
+          <button class="tab-btn" data-tab="settings">Settings</button>
+          <button class="tab-btn" data-tab="qr-code">QR Code</button>
+        </div>
+
+        <div class="tab-panel active" id="family-members">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Family Members</h3>
+              <p class="section-subtitle">Add and manage your friends and family</p>
+            </div>
+
+            <a href="#" class="inline-link">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 8v8"></path>
+                <path d="M8 12h8"></path>
+              </svg>
+              Add a family member
+            </a>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Date of birth</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4" class="table-empty">No family members found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="card-details">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Card Details</h3>
+              <p class="section-subtitle">Manage your saved payment methods</p>
             </div>
           </div>
 
-          <div class="card account-card">
-            <div class="tabs">
-              <button class="tab-btn active" data-tab="family-members">Family Members</button>
-              <button class="tab-btn" data-tab="card-details">Card Details</button>
-              <button class="tab-btn" data-tab="memberships">Memberships</button>
-              <button class="tab-btn" data-tab="settings">Settings</button>
-              <button class="tab-btn" data-tab="qr-code">QR Code</button>
+          <div class="detail-item">
+            <h4 class="detail-title">Default card</h4>
+            <p class="detail-meta">Visa ending in 4242 · Expires 05/28</p>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary">Add New Card</button>
+            <button class="btn">Remove Card</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="memberships">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Memberships</h3>
+              <p class="section-subtitle">Review your active and previous memberships</p>
+            </div>
+          </div>
+
+          <div class="membership-item">
+            <h4 class="membership-title">Unlimited Monthly Membership</h4>
+            <p class="membership-meta">Active · Renews on 01 May 2026</p>
+          </div>
+
+          <div class="membership-item">
+            <h4 class="membership-title">On Demand Access</h4>
+            <p class="membership-meta">Included with your current plan</p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="settings">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Settings</h3>
+              <p class="section-subtitle">Update profile preferences and communication options</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="firstName">First name</label>
+              <input id="firstName" type="text" value="John">
             </div>
 
-            <div class="tab-panel active" id="family-members">
-              <div class="section-header">
+            <div class="form-group">
+              <label for="lastName">Last name</label>
+              <input id="lastName" type="text" value="Jones">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" type="email" value="john@example.com">
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone number</label>
+              <input id="phone" type="text" value="+44 7700 900123">
+            </div>
+
+            <div class="form-group full">
+              <label for="notes">Notes</label>
+              <textarea id="notes">Prefers morning classes and email reminders.</textarea>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px;">
+            <div class="setting-item">
+              <div class="setting-row">
                 <div>
-                  <h3 class="section-title">Family Members</h3>
-                  <p class="section-subtitle">Add and manage your friends and family</p>
+                  <h4 class="setting-title">Email Notifications</h4>
+                  <p class="setting-meta">Receive updates about bookings, reminders and membership changes</p>
                 </div>
 
-                <a href="#" class="inline-link">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M12 8v8"></path>
-                    <path d="M8 12h8"></path>
-                  </svg>
-                  Add a family member
-                </a>
-              </div>
-
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Status</th>
-                      <th>Date of birth</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="4" class="table-empty">No family members found.</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="switch-slider"></span>
+                </label>
               </div>
             </div>
 
-            <div class="tab-panel" id="card-details">
-              <div class="section-header">
+            <div class="setting-item">
+              <div class="setting-row">
                 <div>
-                  <h3 class="section-title">Card Details</h3>
-                  <p class="section-subtitle">Manage your saved payment methods</p>
+                  <h4 class="setting-title">SMS Notifications</h4>
+                  <p class="setting-meta">Receive class reminders and important account alerts by text</p>
                 </div>
-              </div>
 
-              <div class="membership-item">
-                <h4 class="membership-title">Visa ending in 4242</h4>
-                <p class="membership-meta">Expires 05/28 · Default payment method</p>
-              </div>
-
-              <div class="form-actions">
-                <button class="btn btn-primary">Add New Card</button>
-                <button class="btn">Remove Card</button>
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="switch-slider"></span>
+                </label>
               </div>
             </div>
+          </div>
 
-            <div class="tab-panel" id="memberships">
-              <div class="section-header">
-                <div>
-                  <h3 class="section-title">Memberships</h3>
-                  <p class="section-subtitle">Review your active and previous memberships</p>
-                </div>
-              </div>
+          <div class="form-actions">
+            <button class="btn btn-primary">Save Changes</button>
+            <button class="btn">Cancel</button>
+          </div>
+        </div>
 
-              <div class="membership-item">
-                <h4 class="membership-title">Unlimited Monthly Membership</h4>
-                <p class="membership-meta">Active · Renews on 01 May 2026</p>
-              </div>
-
-              <div class="membership-item">
-                <h4 class="membership-title">On Demand Access</h4>
-                <p class="membership-meta">Included with your current plan</p>
-              </div>
+        <div class="tab-panel" id="qr-code">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">QR Code</h3>
+              <p class="section-subtitle">Use your QR code for quick check-in and account identification</p>
             </div>
+          </div>
 
-            <div class="tab-panel" id="settings">
-              <div class="section-header">
-                <div>
-                  <h3 class="section-title">Settings</h3>
-                  <p class="section-subtitle">Update profile preferences and communication options</p>
-                </div>
-              </div>
+          <div class="qr-box"></div>
 
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="firstName">First name</label>
-                  <input id="firstName" type="text" value="John">
-                </div>
-
-                <div class="form-group">
-                  <label for="lastName">Last name</label>
-                  <input id="lastName" type="text" value="Jones">
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" value="john@example.com">
-                </div>
-
-                <div class="form-group">
-                  <label for="phone">Phone number</label>
-                  <input id="phone" type="text" value="+44 7700 900123">
-                </div>
-
-                <div class="form-group full">
-                  <label for="notes">Notes</label>
-                  <textarea id="notes">Prefers morning classes and email reminders.</textarea>
-                </div>
-              </div>
-
-              <div style="margin-top: 24px;">
-                <div class="setting-item">
-                  <div class="setting-row">
-                    <div>
-                      <h4 class="setting-title">Email Notifications</h4>
-                      <p class="setting-meta">Receive updates about bookings, reminders and membership changes</p>
-                    </div>
-
-                    <label class="switch">
-                      <input type="checkbox" checked>
-                      <span class="switch-slider"></span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="setting-item">
-                  <div class="setting-row">
-                    <div>
-                      <h4 class="setting-title">SMS Notifications</h4>
-                      <p class="setting-meta">Receive class reminders and important account alerts by text</p>
-                    </div>
-
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="switch-slider"></span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-actions">
-                <button class="btn btn-primary">Save Changes</button>
-                <button class="btn">Cancel</button>
-              </div>
-            </div>
-
-            <div class="tab-panel" id="qr-code">
-              <div class="section-header">
-                <div>
-                  <h3 class="section-title">QR Code</h3>
-                  <p class="section-subtitle">Use your QR code for quick check-in and account identification</p>
-                </div>
-              </div>
-
-              <div class="qr-box"></div>
-
-              <div class="form-actions">
-                <button class="btn btn-primary">Download QR Code</button>
-                <button class="btn">Print</button>
-              </div>
-            </div>
-
+          <div class="form-actions">
+            <button class="btn btn-primary">Download QR Code</button>
+            <button class="btn">Print</button>
           </div>
         </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <script>
+    const dropdowns = document.querySelectorAll(".profile-dropdown");
+
+    dropdowns.forEach((dropdown) => {
+      const toggle = dropdown.querySelector(".profile-toggle");
+
+      toggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdowns.forEach((item) => {
+          if (item !== dropdown) item.classList.remove("active");
+        });
+        dropdown.classList.toggle("active");
+      });
+    });
+
+    document.addEventListener("click", function () {
+      dropdowns.forEach((dropdown) => {
+        dropdown.classList.remove("active");
+      });
+    });
+
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    const navOverlay = document.getElementById("navOverlay");
+
+    if (navToggle) {
+      navToggle.addEventListener("click", function () {
+        mainNav.classList.toggle("active");
+        navOverlay.classList.toggle("active");
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener("click", function () {
+        mainNav.classList.remove("active");
+        navOverlay.classList.remove("active");
+      });
+    }
+
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabPanels = document.querySelectorAll(".tab-panel");
 
-    tabButtons.forEach(button => {
+    tabButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        tabButtons.forEach(btn => btn.classList.remove("active"));
-        tabPanels.forEach(panel => panel.classList.remove("active"));
+        tabButtons.forEach((btn) => btn.classList.remove("active"));
+        tabPanels.forEach((panel) => panel.classList.remove("active"));
 
         button.classList.add("active");
         document.getElementById(button.dataset.tab).classList.add("active");
       });
     });
   </script>
+
 </body>
 </html>
