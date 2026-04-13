@@ -516,5 +516,61 @@
 
 
 
+// Change password modal
+
+
+  const changePasswordModal = document.getElementById("changePasswordModal");
+  const openChangePasswordLinks = document.querySelectorAll(".open-change-password");
+  const closeChangePassword = document.getElementById("closeChangePassword");
+  const cancelChangePassword = document.getElementById("cancelChangePassword");
+  const changePasswordForm = document.getElementById("changePasswordForm");
+
+  function openPasswordModal(e) {
+    e.preventDefault();
+    changePasswordModal.classList.add("active");
+    changePasswordModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+
+    document.querySelectorAll(".profile-dropdown").forEach(dropdown => {
+      dropdown.classList.remove("active");
+    });
+  }
+
+  function closePasswordModal() {
+    changePasswordModal.classList.remove("active");
+    changePasswordModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  }
+
+  openChangePasswordLinks.forEach(link => {
+    link.addEventListener("click", openPasswordModal);
+  });
+
+  closeChangePassword.addEventListener("click", closePasswordModal);
+  cancelChangePassword.addEventListener("click", closePasswordModal);
+
+  changePasswordModal.addEventListener("click", function (e) {
+    if (e.target === changePasswordModal) {
+      closePasswordModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && changePasswordModal.classList.contains("active")) {
+      closePasswordModal();
+    }
+  });
+
+  document.querySelectorAll(".password-toggle").forEach(button => {
+    button.addEventListener("click", function () {
+      const input = document.getElementById(button.dataset.target);
+      input.type = input.type === "password" ? "text" : "password";
+    });
+  });
+
+  changePasswordForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    closePasswordModal();
+  });
 
 

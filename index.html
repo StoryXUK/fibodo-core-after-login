@@ -513,6 +513,73 @@
   </footer>
 
 
+  <div class="change-password-modal" id="changePasswordModal" aria-hidden="true">
+  <div class="change-password-dialog" role="dialog" aria-modal="true" aria-labelledby="changePasswordTitle">
+    <div class="change-password-header">
+      <h2 class="change-password-title" id="changePasswordTitle">Change Password</h2>
+      <button class="change-password-close" id="closeChangePassword" aria-label="Close change password modal">
+        <svg viewBox="0 0 24 24">
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="change-password-body">
+      <div class="change-password-steps">
+        <div class="change-password-step active">
+          <div class="step-circle">1</div>
+          <span class="step-label">New Password</span>
+        </div>
+        <div class="change-password-step">
+          <div class="step-circle">2</div>
+          <span class="step-label">Verify OTP</span>
+        </div>
+        <div class="change-password-step">
+          <div class="step-circle">3</div>
+          <span class="step-label">Done</span>
+        </div>
+      </div>
+
+      <form id="changePasswordForm">
+        <div class="change-password-form-group">
+          <label for="newPassword">New Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
+            <button type="button" class="password-toggle" data-target="newPassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M3 3l18 18"></path>
+              </svg>
+            </button>
+          </div>
+          <span class="field-note">Must be at least 8 characters</span>
+        </div>
+
+        <div class="change-password-form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+            <button type="button" class="password-toggle" data-target="confirmPassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M3 3l18 18"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="change-password-footer">
+          <button type="button" class="modal-btn" id="cancelChangePassword">Cancel</button>
+          <button type="submit" class="modal-btn modal-btn-primary">Send OTP</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
   <script src="javascript/main.js"></script>
 </body>
 
