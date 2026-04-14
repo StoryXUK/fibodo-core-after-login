@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>fibodo — Book Now</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .portal-page {
+      background: var(--portal-bg);
+      min-height: 100vh;
+    }
+
+    .portal-main {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .portal-section {
+      padding: 34px 20px 40px;
+    }
+
+    .portal-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .booking-shell {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .portal-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--portal-primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .portal-back-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .portal-title {
+      font-size: 28px;
+      line-height: 1.1;
+      font-weight: 700;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+      color: var(--portal-text);
+    }
+
+    .portal-subtitle {
+      margin: 0 0 24px;
+      color: var(--portal-muted);
+      font-size: 15px;
+    }
+
+    .portal-card {
+      background: var(--portal-panel);
+      border: 1px solid var(--portal-border);
+      border-radius: var(--portal-radius-lg);
+      box-shadow: var(--portal-shadow);
+      overflow: hidden;
+    }
+
+    .booking-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--portal-border);
+      flex-wrap: wrap;
+    }
+
+    .portal-tabs {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .portal-tab-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--portal-muted);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 18px 0 14px;
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .portal-tab-btn.active {
+      color: var(--portal-primary);
+    }
+
+    .portal-tab-btn.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: var(--portal-primary);
+      border-radius: 999px;
+    }
+
+    .share-btn {
+      appearance: none;
+      border: 1px solid var(--portal-border);
+      background: #fff;
+      color: var(--portal-text);
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .share-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .booking-content {
+      padding: 22px 24px 28px;
+    }
+
+    .breadcrumb {
+      font-size: 14px;
+      color: var(--portal-muted);
+      margin-bottom: 24px;
+    }
+
+    .breadcrumb a {
+      color: var(--portal-text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 26px;
+    }
+
+    .product-summary {
+      background: #eef3f7;
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid #e0e7ef;
+    }
+
+    .product-summary h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .meta-line {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      background: rgba(255,255,255,0.55);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .meta-label {
+      color: var(--portal-muted);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      color: var(--portal-text);
+      font-weight: 700;
+    }
+
+    .activity-type {
+      font-size: 13px;
+      color: var(--portal-muted);
+      margin: 0 0 12px;
+      text-transform: lowercase;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border-radius: 7px;
+      border: 1px solid #d7dee8;
+      background: #fff;
+      font-size: 12px;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .price-box {
+      margin-top: 16px;
+      background: #fff;
+      border: 1px solid #dfe4eb;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .price-label {
+      font-size: 12px;
+      color: var(--portal-muted);
+      margin-bottom: 6px;
+    }
+
+    .price-value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .calendar-panel {
+      min-width: 0;
+    }
+
+    .date-strip-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .date-strip {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border: 1px solid var(--portal-border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      min-width: 0;
+    }
+
+    .date-pill {
+      padding: 10px 8px;
+      text-align: center;
+      border-right: 1px solid var(--portal-border);
+      background: #fff;
+      min-width: 0;
+    }
+
+    .date-pill:last-child {
+      border-right: 0;
+    }
+
+    .date-pill small {
+      display: block;
+      font-size: 10px;
+      color: var(--portal-muted);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      font-weight: 600;
+    }
+
+    .date-pill strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--portal-text);
+    }
+
+    .date-pill.active {
+      background: #2c2f33;
+    }
+
+    .date-pill.active small,
+    .date-pill.active strong {
+      color: #fff;
+    }
+
+    .date-arrow,
+    .calendar-btn {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      border: 1px solid var(--portal-border);
+      background: #fff;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .date-arrow svg,
+    .calendar-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #374151;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .classes-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #4b5563;
+      margin: 0 0 14px;
+    }
+
+    .booking-empty-message {
+      border: 1px solid #e5e7eb;
+      background: #f8f9fb;
+      border-radius: 10px;
+      padding: 16px 14px;
+      color: #7a8088;
+      font-size: 14px;
+    }
+
+    .info-section {
+      border-top: 1px solid var(--portal-border);
+      padding-top: 28px;
+      margin-top: 10px;
+    }
+
+    .info-section h3 {
+      margin: 0 0 18px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .info-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      margin-bottom: 24px;
+    }
+
+    .info-item {
+      min-width: 110px;
+      position: relative;
+    }
+
+    .info-item + .info-item::before {
+      content: "";
+      position: absolute;
+      left: -14px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: #d9dde3;
+    }
+
+    .info-label {
+      font-size: 12px;
+      color: var(--portal-muted);
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--portal-text);
+    }
+
+    .description-block {
+      max-width: 620px;
+    }
+
+    .description-label {
+      font-size: 12px;
+      color: var(--portal-muted);
+      margin-bottom: 8px;
+    }
+
+    .description-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #374151;
+      margin: 0;
+    }
+
+    .images-section {
+      border-top: 1px solid var(--portal-border);
+      padding-top: 26px;
+      margin-top: 26px;
+    }
+
+    .images-section h3 {
+      margin: 0 0 16px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .images-placeholder {
+      min-height: 120px;
+      border-radius: 12px;
+      border: 1px dashed #d7dde4;
+      background: #fafbfc;
+    }
+
+    @media (max-width: 900px) {
+      .booking-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .date-strip {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .portal-section {
+        padding: 24px 16px 32px;
+      }
+
+      .portal-title {
+        font-size: 24px;
+      }
+
+      .booking-topbar {
+        padding: 0 18px;
+      }
+
+      .booking-content {
+        padding: 18px;
+      }
+
+      .date-strip-wrap {
+        flex-wrap: wrap;
+      }
+
+      .date-strip {
+        order: 2;
+        width: 100%;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .info-item + .info-item::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="portal-page">
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <div class="logo">LOGO</div>
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-overlay" id="navOverlay"></div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="blog.html">Blog</a>
+
+        <div class="header-icons header-icons--mobile">
+          <a href="messages.html" class="header-icon" aria-label="Messages">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </a>
+
+          <a href="notifications.html" class="header-icon" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+              <path d="M9 17a3 3 0 0 0 6 0"></path>
+            </svg>
+          </a>
+
+          <div class="profile-dropdown mobile-profile-dropdown">
+            <button class="profile-toggle" aria-label="Open profile menu" type="button">
+              <span class="profile-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21a8 8 0 0 0-16 0"></path>
+                  <circle cx="12" cy="8" r="4"></circle>
+                </svg>
+              </span>
+              <span class="profile-name">James Murphy</span>
+            </button>
+
+            <div class="profile-menu">
+              <a href="account-details.html">Account details</a>
+              <a href="#" class="open-change-password">Change Password</a>
+              <a href="dashboard.html">Dashboard</a>
+              <a href="contacts.html">Contacts</a>
+              <a href="manage-bookings.html">Manage Bookings</a>
+              <a href="wallet.html">Wallet</a>
+              <a href="vouchers.html">Vouchers</a>
+              <a href="messages.html">Messages</a>
+              <a href="profile-details.html">Profile Details</a>
+              <a href="help-support.html">Help &amp; Support</a>
+              <div class="profile-menu-divider"></div>
+              <a href="logout.html" class="logout-link">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-right">
+        <a href="messages.html" class="header-icon" aria-label="Messages">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </a>
+
+        <a href="notifications.html" class="header-icon" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+            <path d="M9 17a3 3 0 0 0 6 0"></path>
+          </svg>
+        </a>
+
+        <div class="profile-dropdown">
+          <button class="profile-toggle" id="profileToggle" aria-label="Open profile menu" type="button">
+            <span class="profile-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21a8 8 0 0 0-16 0"></path>
+                <circle cx="12" cy="8" r="4"></circle>
+              </svg>
+            </span>
+            <span class="profile-name">James Murphy</span>
+          </button>
+
+          <div class="profile-menu">
+            <a href="account-details.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4 20a8 8 0 0 1 16 0" />
+                </svg>
+              </span>
+              Account details
+            </a>
+
+            <a href="#" class="open-change-password">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="10" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </span>
+              Change Password
+            </a>
+
+            <a href="dashboard.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="7" height="7" />
+                  <rect x="14" y="3" width="7" height="7" />
+                  <rect x="14" y="14" width="7" height="7" />
+                  <rect x="3" y="14" width="7" height="7" />
+                </svg>
+              </span>
+              Dashboard
+            </a>
+
+            <a href="contacts.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="9" cy="8" r="4" />
+                  <path d="M17 11a4 4 0 1 0 0-8" />
+                  <path d="M3 20a6 6 0 0 1 12 0" />
+                  <path d="M17 20a6 6 0 0 0-4-5.6" />
+                </svg>
+              </span>
+              Contacts
+            </a>
+
+            <a href="manage-bookings.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+              </span>
+              Manage Bookings
+            </a>
+
+            <a href="wallet.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="2" y="6" width="20" height="12" rx="2" />
+                  <circle cx="17" cy="12" r="2" />
+                </svg>
+              </span>
+              Wallet
+            </a>
+
+            <a href="vouchers.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 9h18v6H3z" />
+                  <path d="M7 9v6M17 9v6" />
+                </svg>
+              </span>
+              Vouchers
+            </a>
+
+            <a href="messages.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </span>
+              Messages
+            </a>
+
+            <a href="profile-details.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
+                </svg>
+              </span>
+              Profile Details
+            </a>
+
+            <a href="help-support.html">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
+                  <path d="M12 17h.01" />
+                </svg>
+              </span>
+              Help &amp; Support
+            </a>
+
+            <div class="profile-menu-divider"></div>
+
+            <a href="logout.html" class="logout-link">
+              <span class="menu-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <path d="M16 17l5-5-5-5" />
+                  <path d="M21 12H9" />
+                </svg>
+              </span>
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <section class="portal-section">
+      <div class="portal-inner booking-shell">
+        <a href="services.html" class="portal-back-link">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 12H5"></path>
+            <path d="M12 19l-7-7 7-7"></path>
+          </svg>
+          Go Back
+        </a>
+
+        <h1 class="portal-title">London Yoga</h1>
+        <p class="portal-subtitle">Choose the best fit and grow your network today</p>
+
+        <section class="portal-card">
+          <div class="booking-topbar">
+            <div class="portal-tabs">
+              <a href="#" class="portal-tab-btn active">Book Now</a>
+              <a href="about.html" class="portal-tab-btn">About</a>
+              <a href="memberships.html" class="portal-tab-btn">Memberships</a>
+              <a href="vouchers.html" class="portal-tab-btn">Vouchers</a>
+              <a href="on-demand.html" class="portal-tab-btn">Video Library</a>
+            </div>
+
+            <button class="share-btn" type="button">
+              <svg viewBox="0 0 24 24">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <path d="M8.59 13.51 15.42 17.49"></path>
+                <path d="M15.41 6.51 8.59 10.49"></path>
+              </svg>
+              Share
+            </button>
+          </div>
+
+          <div class="booking-content">
+            <div class="breadcrumb">
+              <a href="#">Book Now</a> / Yoga 6 week challenge
+            </div>
+
+            <div class="booking-layout">
+              <div class="product-summary">
+                <h2>Yoga 6 week challenge</h2>
+
+                <div class="meta-line">
+                  <span class="meta-label">Duration</span>
+                  <span class="meta-value">60 Minutes</span>
+                </div>
+
+                <p class="activity-type">bootcamp</p>
+
+                <div class="badge-row">
+                  <span class="mini-badge">Age Restriction</span>
+                  <span class="mini-badge">Only For Everyone</span>
+                </div>
+
+                <div class="price-box">
+                  <div class="price-label">Price</div>
+                  <p class="price-value">£150.00</p>
+                </div>
+              </div>
+
+              <div class="calendar-panel">
+                <div class="date-strip-wrap">
+                  <button class="date-arrow" type="button" aria-label="Previous dates">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                  </button>
+
+                  <div class="date-strip">
+                    <div class="date-pill">
+                      <small>Sun</small>
+                      <strong>12</strong>
+                    </div>
+                    <div class="date-pill">
+                      <small>Mon</small>
+                      <strong>13</strong>
+                    </div>
+                    <div class="date-pill active">
+                      <small>Tue</small>
+                      <strong>14</strong>
+                    </div>
+                    <div class="date-pill">
+                      <small>Wed</small>
+                      <strong>15</strong>
+                    </div>
+                    <div class="date-pill">
+                      <small>Thu</small>
+                      <strong>16</strong>
+                    </div>
+                    <div class="date-pill">
+                      <small>Fri</small>
+                      <strong>17</strong>
+                    </div>
+                    <div class="date-pill">
+                      <small>Sat</small>
+                      <strong>18</strong>
+                    </div>
+                  </div>
+
+                  <button class="date-arrow" type="button" aria-label="Next dates">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </button>
+
+                  <button class="calendar-btn" type="button" aria-label="Open calendar">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M8 2v4"></path>
+                      <path d="M16 2v4"></path>
+                      <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                  </button>
+                </div>
+
+                <p class="classes-title">Classes on Tuesday, 14th April 2026</p>
+
+                <div class="booking-empty-message">
+                  No bookings available for this day. Please check another date on the calendar.
+                </div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>Basic Information</h3>
+
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-label">Category</div>
+                  <div class="info-value">Yoga</div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-label">Sub category</div>
+                  <div class="info-value">-</div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-label">Activity type</div>
+                  <div class="info-value">Courses</div>
+                </div>
+              </div>
+
+              <div class="description-block">
+                <div class="description-label">Description</div>
+                <p class="description-text">
+                  Suitable for all levels, a yoga studio provides a calm environment where people can relax,
+                  recharge, and reconnect with their bodies.
+                </p>
+              </div>
+            </div>
+
+            <div class="images-section">
+              <h3>Images</h3>
+              <div class="images-placeholder"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const dropdowns = document.querySelectorAll(".profile-dropdown");
+
+    dropdowns.forEach((dropdown) => {
+      const toggle = dropdown.querySelector(".profile-toggle");
+
+      toggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdowns.forEach((item) => {
+          if (item !== dropdown) item.classList.remove("active");
+        });
+        dropdown.classList.toggle("active");
+      });
+    });
+
+    document.addEventListener("click", function () {
+      dropdowns.forEach((dropdown) => {
+        dropdown.classList.remove("active");
+      });
+    });
+
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    const navOverlay = document.getElementById("navOverlay");
+
+    if (navToggle) {
+      navToggle.addEventListener("click", function () {
+        mainNav.classList.toggle("open");
+        navOverlay.classList.toggle("visible");
+        navToggle.classList.toggle("open");
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener("click", function () {
+        mainNav.classList.remove("open");
+        navOverlay.classList.remove("visible");
+        navToggle.classList.remove("open");
+      });
+    }
+  </script>
+
+</body>
+</html>
