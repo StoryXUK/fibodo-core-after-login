@@ -7,37 +7,40 @@
   <title>fibodo — Account Details</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
-  
+  <link rel="stylesheet" href="css/account-details.css">
 </head>
 
 <body>
 
   <div id="site-header"></div>
 
-  <main class="page">
-    <div class="page-inner">
+  <main class="account-page">
+    <div class="container">
+
       <h1 class="page-title">Account Details</h1>
       <p class="page-subtitle">View and manage your current user profile</p>
 
-      <section class="card profile-hero">
-        <div class="profile-banner">
-          <div class="profile-banner-content">
-            <div class="profile-logo">
-              <img src="images/logo.png" alt="Harmony Yoga">
-            </div>
-            <h2 class="profile-name-large">John Jones</h2>
+      <!-- Profile hero -->
+      <div class="profile-hero-card">
+        <div class="profile-hero-left">
+          <div class="profile-avatar-wrap">
+            <img src="images/logo.png" alt="Harmony Yoga">
           </div>
-
-          <button class="profile-refresh" aria-label="Refresh profile">
-            <svg viewBox="0 0 24 24">
-              <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
-              <path d="M21 3v6h-6"></path>
-            </svg>
-          </button>
+          <div>
+            <h2 class="profile-hero-name">John Jones</h2>
+            <p class="profile-hero-label">Member</p>
+          </div>
         </div>
-      </section>
+        <button class="profile-refresh-btn" aria-label="Refresh profile">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
+            <path d="M21 3v6h-6"></path>
+          </svg>
+        </button>
+      </div>
 
-      <section class="card">
+      <!-- Tabs card -->
+      <div class="account-tabs-card">
         <div class="tabs">
           <button class="tab-btn active" data-tab="family-members">Family Members</button>
           <button class="tab-btn" data-tab="card-details">Card Details</button>
@@ -46,13 +49,13 @@
           <button class="tab-btn" data-tab="qr-code">QR Code</button>
         </div>
 
+        <!-- Family Members -->
         <div class="tab-panel active" id="family-members">
           <div class="section-header">
             <div>
               <h3 class="section-title">Family Members</h3>
               <p class="section-subtitle">Add and manage your friends and family</p>
             </div>
-
             <a href="#" class="inline-link">
               <svg viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="9"></circle>
@@ -62,7 +65,6 @@
               Add a family member
             </a>
           </div>
-
           <div class="table-wrap">
             <table>
               <thead>
@@ -82,6 +84,7 @@
           </div>
         </div>
 
+        <!-- Card Details -->
         <div class="tab-panel" id="card-details">
           <div class="section-header">
             <div>
@@ -89,18 +92,17 @@
               <p class="section-subtitle">Manage your saved payment methods</p>
             </div>
           </div>
-
           <div class="detail-item">
             <h4 class="detail-title">Default card</h4>
             <p class="detail-meta">Visa ending in 4242 · Expires 05/28</p>
           </div>
-
           <div class="form-actions">
             <button class="btn btn-primary">Add New Card</button>
             <button class="btn">Remove Card</button>
           </div>
         </div>
 
+        <!-- Memberships -->
         <div class="tab-panel" id="memberships">
           <div class="section-header">
             <div>
@@ -108,18 +110,23 @@
               <p class="section-subtitle">Review your active and previous memberships</p>
             </div>
           </div>
-
           <div class="membership-item">
-            <h4 class="membership-title">Unlimited Monthly Membership</h4>
-            <p class="membership-meta">Active · Renews on 01 May 2026</p>
+            <div>
+              <h4 class="membership-title">Unlimited Monthly Membership</h4>
+              <p class="membership-meta">Renews on 01 May 2026</p>
+            </div>
+            <span class="status-pill completed">Active</span>
           </div>
-
           <div class="membership-item">
-            <h4 class="membership-title">On Demand Access</h4>
-            <p class="membership-meta">Included with your current plan</p>
+            <div>
+              <h4 class="membership-title">On Demand Access</h4>
+              <p class="membership-meta">Included with your current plan</p>
+            </div>
+            <span class="status-pill completed">Active</span>
           </div>
         </div>
 
+        <!-- Settings -->
         <div class="tab-panel" id="settings">
           <div class="section-header">
             <div>
@@ -127,56 +134,47 @@
               <p class="section-subtitle">Update profile preferences and communication options</p>
             </div>
           </div>
-
           <div class="form-grid">
             <div class="form-group">
               <label for="firstName">First name</label>
               <input id="firstName" type="text" value="John">
             </div>
-
             <div class="form-group">
               <label for="lastName">Last name</label>
               <input id="lastName" type="text" value="Jones">
             </div>
-
             <div class="form-group">
               <label for="email">Email</label>
               <input id="email" type="email" value="john@example.com">
             </div>
-
             <div class="form-group">
               <label for="phone">Phone number</label>
               <input id="phone" type="text" value="+44 7700 900123">
             </div>
-
             <div class="form-group full">
               <label for="notes">Notes</label>
               <textarea id="notes">Prefers morning classes and email reminders.</textarea>
             </div>
           </div>
-
-          <div style="margin-top: 24px;">
+          <div class="settings-toggles">
             <div class="setting-item">
               <div class="setting-row">
                 <div>
                   <h4 class="setting-title">Email Notifications</h4>
                   <p class="setting-meta">Receive updates about bookings, reminders and membership changes</p>
                 </div>
-
                 <label class="switch">
                   <input type="checkbox" checked>
                   <span class="switch-slider"></span>
                 </label>
               </div>
             </div>
-
             <div class="setting-item">
               <div class="setting-row">
                 <div>
                   <h4 class="setting-title">SMS Notifications</h4>
                   <p class="setting-meta">Receive class reminders and important account alerts by text</p>
                 </div>
-
                 <label class="switch">
                   <input type="checkbox">
                   <span class="switch-slider"></span>
@@ -184,13 +182,13 @@
               </div>
             </div>
           </div>
-
           <div class="form-actions">
             <button class="btn btn-primary">Save Changes</button>
             <button class="btn">Cancel</button>
           </div>
         </div>
 
+        <!-- QR Code -->
         <div class="tab-panel" id="qr-code">
           <div class="section-header">
             <div>
@@ -198,17 +196,18 @@
               <p class="section-subtitle">Use your QR code for quick check-in and account identification</p>
             </div>
           </div>
-
           <div class="qr-box"></div>
-
           <div class="form-actions">
             <button class="btn btn-primary">Download QR Code</button>
             <button class="btn">Print</button>
           </div>
         </div>
-      </section>
+
+      </div>
     </div>
   </main>
+
+  <div id="change-password-modal-root"></div>
 
   <script src="javascript/main.js"></script>
   <script src="javascript/change-password-modal.js"></script>

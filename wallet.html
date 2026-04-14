@@ -7,15 +7,16 @@
   <title>fibodo — Wallet</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
-  
+  <link rel="stylesheet" href="css/wallet.css">
 </head>
 
 <body>
 
   <div id="site-header"></div>
 
-  <main class="page">
-    <div class="page-inner">
+  <main class="wallet-page">
+    <div class="container">
+
       <a href="dashboard.html" class="back-link">
         <svg viewBox="0 0 24 24">
           <path d="M19 12H5"></path>
@@ -27,56 +28,58 @@
       <h1 class="page-title">Wallet</h1>
       <p class="page-subtitle">View your balance and transaction history</p>
 
-      <section class="card">
+      <!-- Balance hero -->
+      <div class="wallet-hero">
+        <div>
+          <p class="wallet-hero-label">Cash credit balance</p>
+          <h2 class="wallet-hero-amount">£0.00</h2>
+          <span class="wallet-hero-badge">Active</span>
+          <p class="wallet-hero-meta">Last updated today</p>
+        </div>
+      </div>
+
+      <!-- Transaction history -->
+      <div class="wallet-history-card">
         <div class="tabs">
-          <button class="tab-btn active" data-tab="wallet-tab">Wallet</button>
+          <button class="tab-btn active" data-tab="wallet-tab">Transaction History</button>
         </div>
 
         <div class="tab-panel active" id="wallet-tab">
-          <div class="wallet-grid">
-            <div class="balance-panel">
-              <div class="balance-card">
-                <p class="balance-label">Cash credit balance</p>
-                <div class="balance-row">
-                  <h2 class="balance-amount">£0.00</h2>
-                  <span class="active-pill">Active</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="history-panel">
-              <div class="history-header">
-                <h2 class="section-title">Wallet transaction history</h2>
-                <div class="search-wrap">
-                  <input type="text" class="search-input" placeholder="Search by Ref ID...">
-                </div>
-              </div>
-
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Ref ID</th>
-                      <th>Transaction Date &amp; Time</th>
-                      <th>Balance</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="4" class="table-empty">No transactions found</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="fake-scrollbar"></div>
+          <div class="history-toolbar">
+            <h2 class="history-toolbar-title">All transactions</h2>
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M20 20l-3.5-3.5"></path>
+              </svg>
+              <input type="text" class="search-input" placeholder="Search by Ref ID...">
             </div>
           </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ref ID</th>
+                  <th>Date &amp; Time</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4" class="table-empty">No transactions found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </section>
+      </div>
+
     </div>
   </main>
+
+  <div id="change-password-modal-root"></div>
 
   <script src="javascript/main.js"></script>
   <script src="javascript/change-password-modal.js"></script>
