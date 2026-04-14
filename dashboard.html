@@ -344,99 +344,71 @@
 
   <div id="site-header"></div>
 
-  <main class="page">
-    <div class="page-inner">
-      <h1 class="page-title">Dashboard</h1>
+  <main>
+    <section class="dashboard-hero">
+      <div class="container">
+        <p class="eyebrow">Client Dashboard</p>
+        <h1>Everything you need, all in one place</h1>
+        <p class="hero-text">
+          Access the key areas of your business quickly with clear navigation tiles designed for fast day-to-day use.
+        </p>
+      </div>
+    </section>
 
-     
+    <section class="dashboard-grid-section">
+      <div class="container">
+        <div class="dashboard-grid">
 
-      <section class="dashboard-grid">
-        <article class="card">
-          <h3 class="card-title">Booked Sessions</h3>
-          <p class="card-subtitle">Here is a list of your activities</p>
+          <a href="index.html" class="dashboard-tile">
+            <div class="tile-icon">🏠</div>
+            <h2>Home</h2>
+            <p>Return to your main overview and latest updates.</p>
+          </a>
 
-          <div class="empty-box">
-            <p class="empty-text">You don't have any booking scheduled</p>
-            <p class="empty-note">Click on Book Now to start.</p>
-            <a href="services.html" class="btn btn-primary">BOOK NOW</a>
-          </div>
-        </article>
+          <a href="about.html" class="dashboard-tile">
+            <div class="tile-icon">ℹ️</div>
+            <h2>About</h2>
+            <p>Learn more about your business, brand, and offering.</p>
+          </a>
 
-        <article class="card favourite-card">
-          <h3 class="card-title">Favourites</h3>
-          <p class="card-subtitle">Select from the list of your favourite profiles</p>
+          <a href="services.html" class="dashboard-tile">
+            <div class="tile-icon">🛠️</div>
+            <h2>Services</h2>
+            <p>View and manage the services you provide to clients.</p>
+          </a>
 
-          <div class="favourite-cover">
-            <div class="favourite-logo">
-              <img src="images/logo.png" alt="London Yoga">
-            </div>
-            <div class="favourite-name">London Yoga</div>
-          </div>
+          <a href="blog.html" class="dashboard-tile">
+            <div class="tile-icon">📰</div>
+            <h2>Blog</h2>
+            <p>Share updates, insights, and helpful content with your audience.</p>
+          </a>
 
-          <div class="favourite-content">
-            <p class="favourite-about-label">About</p>
-            <p class="favourite-about-text">Great yoga studio in Hoxton</p>
+          <a href="timetable.html" class="dashboard-tile">
+            <div class="tile-icon">📅</div>
+            <h2>Timetable</h2>
+            <p>Check your schedule, class times, and upcoming availability.</p>
+          </a>
 
-            <div class="btn-stack">
-              <a href="services.html" class="btn btn-primary">BOOK NOW</a>
-              <a href="#" class="btn btn-secondary">Share Profile</a>
-            </div>
-          </div>
-        </article>
+          <a href="contact.html" class="dashboard-tile">
+            <div class="tile-icon">✉️</div>
+            <h2>Contact</h2>
+            <p>Make it easy for clients to get in touch with you.</p>
+          </a>
 
-        <article class="card family-card">
-          <h3 class="card-title">Family Members</h3>
-          <p class="card-subtitle">Here is a list of your family members</p>
-
-          <div class="family-empty">
-            No family members found.
-          </div>
-        </article>
-      </section>
-    </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
-    const dropdowns = document.querySelectorAll(".profile-dropdown");
-
-    dropdowns.forEach((dropdown) => {
-      const toggle = dropdown.querySelector(".profile-toggle");
-
-      toggle.addEventListener("click", function (e) {
-        e.stopPropagation();
-
-        dropdowns.forEach((item) => {
-          if (item !== dropdown) item.classList.remove("active");
-        });
-
-        dropdown.classList.toggle("active");
+    fetch('nav.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('site-header').innerHTML = data;
       });
-    });
-
-    document.addEventListener("click", function () {
-      dropdowns.forEach((dropdown) => {
-        dropdown.classList.remove("active");
-      });
-    });
-
-    const navToggle = document.getElementById("navToggle");
-    const mainNav = document.getElementById("mainNav");
-    const navOverlay = document.getElementById("navOverlay");
-
-    if (navToggle) {
-      navToggle.addEventListener("click", function () {
-        mainNav.classList.toggle("active");
-        navOverlay.classList.toggle("active");
-      });
-    }
-
-    if (navOverlay) {
-      navOverlay.addEventListener("click", function () {
-        mainNav.classList.remove("active");
-        navOverlay.classList.remove("active");
-      });
-    }
   </script>
+
+
 
 </body>
 </html>
