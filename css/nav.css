@@ -497,7 +497,6 @@ header {
     width: 100%;
     margin: 10px 0 20px;
     padding: 16px 0;
-    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
   }
