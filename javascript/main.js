@@ -735,4 +735,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  document.addEventListener("DOMContentLoaded", loadHeader);
+  // Scripts load at end of <body> so DOM is already ready — call directly
+  loadHeader();

@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Scripts load at end of <body> so DOM is already ready — call directly
+(function () {
   const modalRoot = document.getElementById('change-password-modal-root');
   if (!modalRoot) return;
 
@@ -16,4 +17,4 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
       console.error(error);
     });
-});
+})();
