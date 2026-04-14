@@ -4,21 +4,790 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>fibodo — Client Page</title>
+  <title>fibodo — My Memberships</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/modal.css">
+  <style>
+    .memberships-page {
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 38%, #f8fafc 100%);
+      min-height: 100vh;
+      padding: 2.5rem 0 4rem;
+    }
+
+    .memberships-container {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .memberships-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .memberships-back-link:hover {
+      color: #0f172a;
+      transform: translateX(-2px);
+    }
+
+    .memberships-back-link svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .memberships-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #172033 55%, #1e293b 100%);
+      border-radius: 28px;
+      padding: 2rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .memberships-kicker {
+      display: inline-block;
+      margin-bottom: 0.65rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.58);
+    }
+
+    .memberships-title {
+      margin: 0 0 0.55rem;
+      font-size: clamp(2rem, 4vw, 2.9rem);
+      line-height: 1.03;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+    }
+
+    .memberships-subtitle {
+      margin: 0;
+      max-width: 640px;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .memberships-hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .memberships-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 1.15rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .memberships-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .memberships-btn-primary {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #ffffff;
+    }
+
+    .memberships-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .memberships-overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .overview-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 22px;
+      padding: 1.15rem 1.2rem;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.05);
+    }
+
+    .overview-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+
+    .overview-value {
+      margin: 0;
+      font-size: 1.7rem;
+      line-height: 1;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.04em;
+    }
+
+    .overview-meta {
+      margin: 0.55rem 0 0;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: #64748b;
+    }
+
+    .memberships-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.85fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .memberships-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 26px;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+    }
+
+    .memberships-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.25rem 1.25rem 0;
+      flex-wrap: wrap;
+    }
+
+    .memberships-card-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .memberships-card-subtitle {
+      margin: 0.35rem 0 0;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #64748b;
+    }
+
+    .memberships-filter {
+      width: 100%;
+      max-width: 240px;
+    }
+
+    .memberships-filter input {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 0.95rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #f8fafc;
+      font-size: 0.92rem;
+      color: #0f172a;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .memberships-filter input:focus {
+      outline: none;
+      border-color: #cbd5e1;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+    }
+
+    .memberships-tabs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem 1.25rem 0;
+      border-bottom: 1px solid #eef2f7;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .memberships-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .memberships-tab-btn {
+      position: relative;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.92rem;
+      line-height: 1;
+      font-weight: 600;
+      padding: 0.9rem 0.9rem 1rem;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .memberships-tab-btn:hover {
+      color: #0f172a;
+    }
+
+    .memberships-tab-btn.active {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .memberships-tab-btn.active::after {
+      content: "";
+      position: absolute;
+      left: 0.9rem;
+      right: 0.9rem;
+      bottom: -1px;
+      height: 2px;
+      border-radius: 999px;
+      background: #0f172a;
+    }
+
+    .memberships-panel {
+      display: none;
+      padding: 1.25rem;
+    }
+
+    .memberships-panel.active {
+      display: block;
+    }
+
+    .membership-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.05rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      margin-bottom: 0.85rem;
+    }
+
+    .membership-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .membership-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .membership-topline {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.45rem;
+    }
+
+    .membership-name {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .membership-status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 0 0.7rem;
+      border-radius: 999px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 0.76rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .membership-status.active {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: rgba(74, 222, 128, 0.18);
+      color: #166534;
+    }
+
+    .membership-status.paused {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.18);
+      color: #92400e;
+    }
+
+    .membership-status.expired {
+      background: rgba(248, 113, 113, 0.08);
+      border-color: rgba(248, 113, 113, 0.16);
+      color: #b91c1c;
+    }
+
+    .membership-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 0 0 0.6rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .membership-meta li {
+      font-size: 0.88rem;
+      color: #64748b;
+    }
+
+    .membership-meta strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .membership-description {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #64748b;
+      max-width: 620px;
+    }
+
+    .membership-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      min-width: 145px;
+    }
+
+    .membership-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 0.9rem;
+      border-radius: 11px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #0f172a;
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .membership-action-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .membership-action-btn.primary {
+      background: #0f172a;
+      border-color: #0f172a;
+      color: #ffffff;
+    }
+
+    .membership-action-btn.primary:hover {
+      background: #1e293b;
+      border-color: #1e293b;
+    }
+
+    .memberships-side {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .side-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 26px;
+      padding: 1.25rem;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.05);
+    }
+
+    .side-card-title {
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .side-card-text {
+      margin: 0 0 1rem;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #64748b;
+    }
+
+    .next-payment-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      padding: 1rem;
+    }
+
+    .next-payment-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 0.45rem;
+    }
+
+    .next-payment-value {
+      margin: 0 0 0.3rem;
+      font-size: 1.7rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #0f172a;
+    }
+
+    .next-payment-date {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .benefits-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .benefits-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: #475569;
+    }
+
+    .benefits-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0f172a;
+      margin-top: 0.42rem;
+      flex-shrink: 0;
+    }
+
+    .empty-memberships {
+      border: 1px dashed #cbd5e1;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      padding: 2.5rem 1rem;
+      text-align: center;
+    }
+
+    .empty-memberships h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .empty-memberships p {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #64748b;
+    }
+
+    @media (max-width: 1024px) {
+      .memberships-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .memberships-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .memberships-page {
+        padding: 1.5rem 0 3rem;
+      }
+
+      .memberships-hero {
+        padding: 1.5rem;
+        border-radius: 22px;
+      }
+
+      .memberships-card,
+      .side-card {
+        border-radius: 22px;
+      }
+
+      .memberships-card-head,
+      .memberships-tabs,
+      .memberships-panel {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .membership-item {
+        flex-direction: column;
+      }
+
+      .membership-actions {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .memberships-overview {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  
-
   <div id="site-header"></div>
 
-  <main>
+  <main class="memberships-page">
+    <div class="memberships-container">
 
-   
+      <a href="dashboard.html" class="memberships-back-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        <span>Back to Dashboard</span>
+      </a>
+
+      <section class="memberships-hero">
+        <div>
+          <span class="memberships-kicker">My Memberships</span>
+          <h1 class="memberships-title">Manage your memberships</h1>
+          <p class="memberships-subtitle">
+            View your active plans, payment dates, member benefits and available actions all in one place.
+          </p>
+        </div>
+
+        <div class="memberships-hero-actions">
+          <a href="services.html" class="memberships-btn memberships-btn-primary">Explore Plans</a>
+          <a href="help-support.html" class="memberships-btn memberships-btn-secondary">Need Help?</a>
+        </div>
+      </section>
+
+      <section class="memberships-overview">
+        <article class="overview-card">
+          <span class="overview-label">Active Memberships</span>
+          <p class="overview-value">2</p>
+          <p class="overview-meta">You currently have two live memberships.</p>
+        </article>
+
+        <article class="overview-card">
+          <span class="overview-label">Monthly Spend</span>
+          <p class="overview-value">£89</p>
+          <p class="overview-meta">Combined recurring membership total.</p>
+        </article>
+
+        <article class="overview-card">
+          <span class="overview-label">Next Payment</span>
+          <p class="overview-value">18 Apr</p>
+          <p class="overview-meta">Your next payment is due in 4 days.</p>
+        </article>
+
+        <article class="overview-card">
+          <span class="overview-label">Available Benefits</span>
+          <p class="overview-value">5</p>
+          <p class="overview-meta">Includes classes, discounts and on-demand access.</p>
+        </article>
+      </section>
+
+      <section class="memberships-layout">
+        <div class="memberships-card">
+          <div class="memberships-card-head">
+            <div>
+              <h2 class="memberships-card-title">Your membership plans</h2>
+              <p class="memberships-card-subtitle">Review each plan and take action when needed.</p>
+            </div>
+
+            <div class="memberships-filter">
+              <input type="text" placeholder="Search memberships">
+            </div>
+          </div>
+
+          <div class="memberships-tabs" role="tablist" aria-label="Membership tabs">
+            <button class="memberships-tab-btn active" data-tab="active-memberships" role="tab" aria-selected="true">Active</button>
+            <button class="memberships-tab-btn" data-tab="paused-memberships" role="tab" aria-selected="false">Paused</button>
+            <button class="memberships-tab-btn" data-tab="expired-memberships" role="tab" aria-selected="false">Expired</button>
+          </div>
+
+          <div class="memberships-panel active" id="active-memberships" role="tabpanel">
+            <article class="membership-item">
+              <div class="membership-main">
+                <div class="membership-topline">
+                  <h3 class="membership-name">Unlimited Yoga Membership</h3>
+                  <span class="membership-status active">Active</span>
+                </div>
+
+                <ul class="membership-meta">
+                  <li><strong>£49/month</strong></li>
+                  <li>Renews on <strong>18 April 2026</strong></li>
+                  <li>Includes <strong>Unlimited Classes</strong></li>
+                </ul>
+
+                <p class="membership-description">
+                  Full access to all weekly yoga classes, selected workshops, and member-only booking priority.
+                </p>
+              </div>
+
+              <div class="membership-actions">
+                <a href="#" class="membership-action-btn primary">Manage Plan</a>
+                <a href="#" class="membership-action-btn">Pause Membership</a>
+                <a href="#" class="membership-action-btn">View Terms</a>
+              </div>
+            </article>
+
+            <article class="membership-item">
+              <div class="membership-main">
+                <div class="membership-topline">
+                  <h3 class="membership-name">On-Demand Plus</h3>
+                  <span class="membership-status active">Active</span>
+                </div>
+
+                <ul class="membership-meta">
+                  <li><strong>£40/month</strong></li>
+                  <li>Renews on <strong>22 April 2026</strong></li>
+                  <li>Includes <strong>Video Library Access</strong></li>
+                </ul>
+
+                <p class="membership-description">
+                  Stream guided sessions anytime with access to premium on-demand classes, mobility flows and recovery content.
+                </p>
+              </div>
+
+              <div class="membership-actions">
+                <a href="#" class="membership-action-btn primary">Manage Plan</a>
+                <a href="#" class="membership-action-btn">Cancel Renewal</a>
+                <a href="#" class="membership-action-btn">Download Receipt</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="memberships-panel" id="paused-memberships" role="tabpanel">
+            <article class="membership-item">
+              <div class="membership-main">
+                <div class="membership-topline">
+                  <h3 class="membership-name">Wellness Reset Plan</h3>
+                  <span class="membership-status paused">Paused</span>
+                </div>
+
+                <ul class="membership-meta">
+                  <li><strong>£29/month</strong></li>
+                  <li>Paused until <strong>30 April 2026</strong></li>
+                  <li>Includes <strong>Nutrition Guides</strong></li>
+                </ul>
+
+                <p class="membership-description">
+                  A flexible plan focused on nutrition support, wellbeing content and lighter access while your membership is on hold.
+                </p>
+              </div>
+
+              <div class="membership-actions">
+                <a href="#" class="membership-action-btn primary">Resume Now</a>
+                <a href="#" class="membership-action-btn">Edit Pause</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="memberships-panel" id="expired-memberships" role="tabpanel">
+            <article class="membership-item">
+              <div class="membership-main">
+                <div class="membership-topline">
+                  <h3 class="membership-name">Summer Intro Membership</h3>
+                  <span class="membership-status expired">Expired</span>
+                </div>
+
+                <ul class="membership-meta">
+                  <li><strong>£19/month</strong></li>
+                  <li>Ended on <strong>10 March 2026</strong></li>
+                  <li>Included <strong>Intro Class Bundle</strong></li>
+                </ul>
+
+                <p class="membership-description">
+                  A previous starter plan with access to beginner sessions and selected introductory content.
+                </p>
+              </div>
+
+              <div class="membership-actions">
+                <a href="#" class="membership-action-btn primary">Rejoin Plan</a>
+                <a href="#" class="membership-action-btn">View Details</a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <aside class="memberships-side">
+          <section class="side-card">
+            <h2 class="side-card-title">Next payment</h2>
+            <p class="side-card-text">Your next scheduled membership payment is shown below.</p>
+
+            <div class="next-payment-box">
+              <div class="next-payment-label">Upcoming charge</div>
+              <p class="next-payment-value">£49.00</p>
+              <p class="next-payment-date">Due on 18 April 2026</p>
+            </div>
+          </section>
+
+          <section class="side-card">
+            <h2 class="side-card-title">Included benefits</h2>
+            <p class="side-card-text">Your current memberships unlock the following benefits.</p>
+
+            <ul class="benefits-list">
+              <li>Unlimited access to standard yoga classes</li>
+              <li>Priority booking on selected sessions</li>
+              <li>Member-only pricing on workshops</li>
+              <li>Premium on-demand video library access</li>
+              <li>Exclusive community content and updates</li>
+            </ul>
+          </section>
+
+          <section class="side-card">
+            <h2 class="side-card-title">Membership help</h2>
+            <p class="side-card-text">
+              Need to change a plan, update billing, or ask a question about your membership?
+            </p>
+            <a href="help-support.html" class="membership-action-btn primary" style="width:100%;">Contact Support</a>
+          </section>
+        </aside>
+      </section>
+
+    </div>
   </main>
 
   <footer>
@@ -28,7 +797,6 @@
         <div class="footer-col">
           <h4>Contact</h4>
           <a href="#" id="openContactModal">Contact Form</a>
-         
         </div>
         <div class="footer-col">
           <h4>Content</h4>
@@ -60,18 +828,42 @@
         <div>
           © 2026 Business Name. All rights reserved. Powered by <a target="_blank" href="https://fibodo.com/">fibodo</a>
         </div>
-
-        
       </div>
 
     </div>
   </footer>
-<div id="change-password-modal-root"></div>
 
-<script src="javascript/main.js"></script>
+  <div id="change-password-modal-root"></div>
+
+  <script>
+    document.querySelectorAll('.memberships-tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const tab = button.dataset.tab;
+
+        document.querySelectorAll('.memberships-tab-btn').forEach(btn => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+
+        document.querySelectorAll('.memberships-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+
+        button.classList.add('active');
+        button.setAttribute('aria-selected', 'true');
+
+        const targetPanel = document.getElementById(tab);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+  <script src="javascript/main.js"></script>
   <script src="javascript/change-password-modal.js"></script>
   <script src="javascript/modal-loader.js"></script>
-  
+
 </body>
 
 </html>
