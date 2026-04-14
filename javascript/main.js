@@ -519,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // show selected tab
       const target = document.getElementById(tab.dataset.tab);
-      target.classList.add("active");
+      if (target) target.classList.add("active");
     });
   });
 
@@ -548,6 +548,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function openPasswordModal(e) {
     e.preventDefault();
+    if (!changePasswordModal) return;
     changePasswordModal.classList.add("active");
     changePasswordModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
@@ -558,6 +559,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function closePasswordModal() {
+    if (!changePasswordModal) return;
     changePasswordModal.classList.remove("active");
     changePasswordModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
@@ -567,17 +569,19 @@ document.addEventListener("DOMContentLoaded", function () {
     link.addEventListener("click", openPasswordModal);
   });
 
-  closeChangePassword.addEventListener("click", closePasswordModal);
-  cancelChangePassword.addEventListener("click", closePasswordModal);
+  if (closeChangePassword) closeChangePassword.addEventListener("click", closePasswordModal);
+  if (cancelChangePassword) cancelChangePassword.addEventListener("click", closePasswordModal);
 
-  changePasswordModal.addEventListener("click", function (e) {
-    if (e.target === changePasswordModal) {
-      closePasswordModal();
-    }
-  });
+  if (changePasswordModal) {
+    changePasswordModal.addEventListener("click", function (e) {
+      if (e.target === changePasswordModal) {
+        closePasswordModal();
+      }
+    });
+  }
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && changePasswordModal.classList.contains("active")) {
+    if (e.key === "Escape" && changePasswordModal && changePasswordModal.classList.contains("active")) {
       closePasswordModal();
     }
   });
@@ -585,20 +589,22 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".password-toggle").forEach(button => {
     button.addEventListener("click", function () {
       const input = document.getElementById(button.dataset.target);
-      input.type = input.type === "password" ? "text" : "password";
+      if (input) input.type = input.type === "password" ? "text" : "password";
     });
   });
 
-  changePasswordForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    closePasswordModal();
-  });
+  if (changePasswordForm) {
+    changePasswordForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      closePasswordModal();
+    });
+  }
 
 
 
 
 
-  // Call Header
+  // Call Header (defined at top level so it always runs)
 
   async function loadHeader() {
     const headerTarget = document.getElementById("site-header");
