@@ -8,15 +8,14 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/modal.css">
-  <link rel="stylesheet" href="css/vouchers.css">
 </head>
 
 <body>
 
   <div id="site-header"></div>
 
-  <main class="vouchers-page">
-    <div class="container">
+  <main class="page">
+    <div class="page-inner">
 
       <a href="dashboard.html" class="back-link">
         <svg viewBox="0 0 24 24">
@@ -29,7 +28,7 @@
       <h1 class="page-title">Vouchers</h1>
       <p class="page-subtitle">View and manage your voucher activity</p>
 
-      <div class="vouchers-card">
+      <section class="card">
         <div class="tabs">
           <button class="tab-btn active" data-tab="redeemed">Yet to be redeemed</button>
           <button class="tab-btn" data-tab="utilised">Utilised</button>
@@ -37,56 +36,32 @@
         </div>
 
         <div class="tab-panel active" id="redeemed">
-          <div class="voucher-section-header">
-            <h2 class="voucher-section-title">Yet to be redeemed</h2>
-            <span class="voucher-count">0</span>
+          <div class="panel-header">
+            <h2 class="panel-title">Yet to be redeemed</h2>
           </div>
-          <div class="voucher-empty">
-            <div class="voucher-empty-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M3 9h18v6H3z"></path>
-                <path d="M7 9v6M17 9v6"></path>
-              </svg>
-            </div>
-            <p class="voucher-empty-title">No vouchers to redeem</p>
-            <p class="voucher-empty-text">Any vouchers available for redemption will appear here.</p>
+          <div class="empty-state">
+            <div class="empty-pill">No vouchers to redeem</div>
           </div>
         </div>
 
         <div class="tab-panel" id="utilised">
-          <div class="voucher-section-header">
-            <h2 class="voucher-section-title">Utilised</h2>
-            <span class="voucher-count">0</span>
+          <div class="panel-header">
+            <h2 class="panel-title">Utilised</h2>
           </div>
-          <div class="voucher-empty">
-            <div class="voucher-empty-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M3 9h18v6H3z"></path>
-                <path d="M7 9v6M17 9v6"></path>
-              </svg>
-            </div>
-            <p class="voucher-empty-title">No utilised vouchers</p>
-            <p class="voucher-empty-text">Vouchers you have used will appear here.</p>
+          <div class="empty-state">
+            <div class="empty-pill">No utilised vouchers</div>
           </div>
         </div>
 
         <div class="tab-panel" id="expired">
-          <div class="voucher-section-header">
-            <h2 class="voucher-section-title">Expired</h2>
-            <span class="voucher-count">0</span>
+          <div class="panel-header">
+            <h2 class="panel-title">Expired</h2>
           </div>
-          <div class="voucher-empty">
-            <div class="voucher-empty-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M3 9h18v6H3z"></path>
-                <path d="M7 9v6M17 9v6"></path>
-              </svg>
-            </div>
-            <p class="voucher-empty-title">No expired vouchers</p>
-            <p class="voucher-empty-text">Expired vouchers will be listed here for your records.</p>
+          <div class="empty-state">
+            <div class="empty-pill">No expired vouchers</div>
           </div>
         </div>
-      </div>
+      </section>
 
     </div>
   </main>

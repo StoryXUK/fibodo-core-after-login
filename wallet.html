@@ -8,15 +8,14 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/modal.css">
-  <link rel="stylesheet" href="css/wallet.css">
 </head>
 
 <body>
 
   <div id="site-header"></div>
 
-  <main class="wallet-page">
-    <div class="container">
+  <main class="page">
+    <div class="page-inner">
 
       <a href="dashboard.html" class="back-link">
         <svg viewBox="0 0 24 24">
@@ -29,25 +28,14 @@
       <h1 class="page-title">Wallet</h1>
       <p class="page-subtitle">View your balance and transaction history</p>
 
-      <!-- Balance hero -->
-      <div class="wallet-hero">
-        <div>
-          <p class="wallet-hero-label">Cash credit balance</p>
-          <h2 class="wallet-hero-amount">£0.00</h2>
-          <span class="wallet-hero-badge">Active</span>
-          <p class="wallet-hero-meta">Last updated today</p>
-        </div>
-      </div>
-
-      <!-- Transaction history -->
-      <div class="wallet-history-card">
+      <section class="card">
         <div class="tabs">
           <button class="tab-btn active" data-tab="wallet-tab">Transaction History</button>
         </div>
 
         <div class="tab-panel active" id="wallet-tab">
-          <div class="history-toolbar">
-            <h2 class="history-toolbar-title">All transactions</h2>
+          <div class="panel-header">
+            <h2 class="panel-title">All transactions</h2>
             <div class="search-wrap">
               <svg viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="7"></circle>
@@ -75,7 +63,7 @@
             </table>
           </div>
         </div>
-      </div>
+      </section>
 
     </div>
   </main>
