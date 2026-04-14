@@ -502,22 +502,19 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-  // booking portal only
+  // tab switching — handles both .tab-content and .tab-panel
 
   const tabs = document.querySelectorAll(".tab-btn");
-  const contents = document.querySelectorAll(".tab-content");
 
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
+      const parent = tab.closest("section, .card") || document;
 
-      // remove active from all buttons
-      tabs.forEach(t => t.classList.remove("active"));
+      parent.querySelectorAll(".tab-btn").forEach(t => t.classList.remove("active"));
+      parent.querySelectorAll(".tab-content, .tab-panel").forEach(c => c.classList.remove("active"));
+
       tab.classList.add("active");
 
-      // hide all content
-      contents.forEach(c => c.classList.remove("active"));
-
-      // show selected tab
       const target = document.getElementById(tab.dataset.tab);
       if (target) target.classList.add("active");
     });

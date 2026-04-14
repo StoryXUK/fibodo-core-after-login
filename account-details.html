@@ -210,59 +210,6 @@
     </div>
   </main>
 
-  <script>
-    const dropdowns = document.querySelectorAll(".profile-dropdown");
-
-    dropdowns.forEach((dropdown) => {
-      const toggle = dropdown.querySelector(".profile-toggle");
-
-      toggle.addEventListener("click", function (e) {
-        e.stopPropagation();
-        dropdowns.forEach((item) => {
-          if (item !== dropdown) item.classList.remove("active");
-        });
-        dropdown.classList.toggle("active");
-      });
-    });
-
-    document.addEventListener("click", function () {
-      dropdowns.forEach((dropdown) => {
-        dropdown.classList.remove("active");
-      });
-    });
-
-    const navToggle = document.getElementById("navToggle");
-    const mainNav = document.getElementById("mainNav");
-    const navOverlay = document.getElementById("navOverlay");
-
-    if (navToggle) {
-      navToggle.addEventListener("click", function () {
-        mainNav.classList.toggle("active");
-        navOverlay.classList.toggle("active");
-      });
-    }
-
-    if (navOverlay) {
-      navOverlay.addEventListener("click", function () {
-        mainNav.classList.remove("active");
-        navOverlay.classList.remove("active");
-      });
-    }
-
-    const tabButtons = document.querySelectorAll(".tab-btn");
-    const tabPanels = document.querySelectorAll(".tab-panel");
-
-    tabButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        tabButtons.forEach((btn) => btn.classList.remove("active"));
-        tabPanels.forEach((panel) => panel.classList.remove("active"));
-
-        button.classList.add("active");
-        document.getElementById(button.dataset.tab).classList.add("active");
-      });
-    });
-  </script>
-
   <script src="javascript/main.js"></script>
   <script src="javascript/change-password-modal.js"></script>
   <script src="javascript/modal-loader.js"></script>
