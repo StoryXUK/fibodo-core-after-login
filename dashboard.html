@@ -7,397 +7,293 @@
   <title>fibodo — Dashboard</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
-  <style>
-    :root {
-      --bg: #f3f3f5;
-      --panel: #ffffff;
-      --panel-soft: #f7f8fa;
-      --border: #e6e7eb;
-      --text: #111315;
-      --muted: #6f7681;
-      --primary: #2f80d1;
-      --primary-hover: #2671ba;
-      --hover: #f6f7f8;
-      --shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
-      --radius-lg: 18px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
-      --max-width: 1280px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    body {
-      min-height: 100vh;
-    }
-
-    .page {
-      padding: 34px 20px 40px;
-    }
-
-    .page-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .page-title {
-      font-size: 28px;
-      line-height: 1.1;
-      font-weight: 700;
-      margin: 0 0 26px;
-      letter-spacing: -0.02em;
-    }
-
-    .welcome-banner {
-      position: relative;
-      overflow: hidden;
-      min-height: 108px;
-      border-radius: var(--radius-lg);
-      margin-bottom: 22px;
-      background: linear-gradient(135deg, #3423a6 0%, #7c1fa2 48%, #ea1973 100%);
-      display: flex;
-      align-items: center;
-      padding: 24px 28px;
-    }
-
-    .welcome-banner::before,
-    .welcome-banner::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .welcome-banner::before {
-      width: 260px;
-      height: 260px;
-      right: 180px;
-      top: -170px;
-      background: radial-gradient(circle at 30% 30%, #4da3ff, #3157d5 70%, transparent 72%);
-      opacity: 0.95;
-    }
-
-    .welcome-banner::after {
-      width: 300px;
-      height: 300px;
-      right: -40px;
-      bottom: -185px;
-      background: radial-gradient(circle at 35% 35%, #49afff, #386ce0 72%, transparent 74%);
-      opacity: 0.95;
-    }
-
-    .welcome-title {
-      position: relative;
-      z-index: 2;
-      margin: 0;
-      color: #fff;
-      font-size: 34px;
-      font-weight: 400;
-      letter-spacing: -0.03em;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 310px minmax(0, 1fr) 250px;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      min-width: 0;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 0 0 6px;
-      letter-spacing: -0.01em;
-    }
-
-    .card-subtitle {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.45;
-      margin: 0 0 18px;
-    }
-
-    .empty-box {
-      border: 1px solid #d8dde4;
-      background: #f7f9fb;
-      border-radius: 14px;
-      padding: 24px 22px 18px;
-    }
-
-    .empty-text {
-      font-size: 16px;
-      line-height: 1.45;
-      color: #4d5560;
-      margin: 0 0 8px;
-    }
-
-    .empty-note {
-      font-size: 14px;
-      color: #7a828d;
-      margin: 0 0 18px;
-    }
-
-    .btn {
-      appearance: none;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text);
-      height: 42px;
-      padding: 0 16px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s ease;
-      width: 100%;
-    }
-
-    .btn:hover {
-      background: var(--hover);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-      border-color: var(--primary-hover);
-    }
-
-    .btn-secondary {
-      background: #fff;
-      border-color: #d9dee5;
-      color: #2c3137;
-    }
-
-    .favourite-card {
-      padding-bottom: 18px;
-    }
-
-    .favourite-cover {
-      position: relative;
-      min-height: 172px;
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 22px;
-      background:
-        linear-gradient(rgba(17, 19, 21, 0.35), rgba(17, 19, 21, 0.35)),
-        url('images/profile-banner.jpg') center/cover no-repeat,
-        linear-gradient(135deg, #8f8b80, #c5b39d);
-    }
-
-    .favourite-logo {
-      position: absolute;
-      left: 26px;
-      bottom: -24px;
-      width: 124px;
-      height: 124px;
-      border-radius: 22px;
-      background: #edf2e8;
-      border: 1px solid rgba(255,255,255,0.5);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .favourite-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .favourite-name {
-      position: absolute;
-      right: 22px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #fff;
-      font-size: 24px;
-      font-weight: 700;
-      text-align: right;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.18);
-    }
-
-    .favourite-content {
-      padding: 20px 8px 0 8px;
-    }
-
-    .favourite-about-label {
-      margin: 0 0 6px;
-      font-size: 17px;
-      font-weight: 400;
-      color: #111315;
-    }
-
-    .favourite-about-text {
-      margin: 0 0 26px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    .btn-stack {
-      display: grid;
-      gap: 12px;
-    }
-
-    .family-empty {
-      padding-top: 24px;
-      font-size: 18px;
-      line-height: 1.5;
-      color: #22252a;
-    }
-
-    @media (max-width: 1180px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .family-card {
-        grid-column: 1 / -1;
-      }
-    }
-
-    @media (max-width: 991px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .family-card {
-        grid-column: auto;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .page {
-        padding: 24px 16px 32px;
-      }
-
-      .page-title {
-        font-size: 24px;
-        margin-bottom: 18px;
-      }
-
-      .welcome-banner {
-        padding: 20px;
-        min-height: 96px;
-      }
-
-      .welcome-title {
-        font-size: 24px;
-      }
-
-      .card {
-        padding: 18px;
-      }
-
-      .favourite-cover {
-        min-height: 150px;
-      }
-
-      .favourite-logo {
-        width: 92px;
-        height: 92px;
-        left: 18px;
-        bottom: -16px;
-        border-radius: 18px;
-      }
-
-      .favourite-name {
-        font-size: 20px;
-        right: 18px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
 
   <div id="site-header"></div>
 
-  <main>
+  <main class="dashboard-page">
+
+    <!-- HERO -->
     <section class="dashboard-hero">
       <div class="container">
-        <p class="eyebrow">Client Dashboard</p>
-        <h1>Everything you need, all in one place</h1>
-        <p class="hero-text">
-          Access the key areas of your business quickly with clear navigation tiles designed for fast day-to-day use.
-        </p>
-      </div>
-    </section>
+        <div class="dashboard-hero__content">
+          <div class="dashboard-hero__text">
+            <span class="dashboard-kicker">Welcome back</span>
+            <h1>James Murphy</h1>
+            <p>
+              Manage your bookings, plans, profile, messages and account settings from one simple dashboard.
+            </p>
+          </div>
 
-    <section class="dashboard-grid-section">
-      <div class="container">
-        <div class="dashboard-grid">
-
-          <a href="index.html" class="dashboard-tile">
-            <div class="tile-icon">🏠</div>
-            <h2>Home</h2>
-            <p>Return to your main overview and latest updates.</p>
-          </a>
-
-          <a href="about.html" class="dashboard-tile">
-            <div class="tile-icon">ℹ️</div>
-            <h2>About</h2>
-            <p>Learn more about your business, brand, and offering.</p>
-          </a>
-
-          <a href="services.html" class="dashboard-tile">
-            <div class="tile-icon">🛠️</div>
-            <h2>Services</h2>
-            <p>View and manage the services you provide to clients.</p>
-          </a>
-
-          <a href="blog.html" class="dashboard-tile">
-            <div class="tile-icon">📰</div>
-            <h2>Blog</h2>
-            <p>Share updates, insights, and helpful content with your audience.</p>
-          </a>
-
-          <a href="timetable.html" class="dashboard-tile">
-            <div class="tile-icon">📅</div>
-            <h2>Timetable</h2>
-            <p>Check your schedule, class times, and upcoming availability.</p>
-          </a>
-
-          <a href="contact.html" class="dashboard-tile">
-            <div class="tile-icon">✉️</div>
-            <h2>Contact</h2>
-            <p>Make it easy for clients to get in touch with you.</p>
-          </a>
-
+          <div class="dashboard-hero__actions">
+            <a href="manage-bookings.html" class="dashboard-btn dashboard-btn--primary">Manage Bookings</a>
+            <a href="messages.html" class="dashboard-btn dashboard-btn--secondary">View Messages</a>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="dashboard-section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Quick Actions</h2>
+          <p>Get to the areas you use most, faster.</p>
+        </div>
+
+        <div class="dashboard-grid dashboard-grid--small">
+          <a href="messages.html" class="dashboard-tile dashboard-tile--highlight">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Messages</h3>
+              <p>Read and manage conversations with ease.</p>
+            </div>
+          </a>
+
+          <a href="notifications.html" class="dashboard-tile dashboard-tile--highlight">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5" />
+                <path d="M9 17a3 3 0 0 0 6 0" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Notifications</h3>
+              <p>Stay on top of updates, reminders and activity.</p>
+            </div>
+          </a>
+
+          <a href="dashboard.html" class="dashboard-tile dashboard-tile--highlight">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Dashboard</h3>
+              <p>Return to your full account overview.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section class="dashboard-section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>My Account</h2>
+          <p>Your personal details, security settings and profile tools.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <a href="account-details.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20a8 8 0 0 1 16 0" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Account Details</h3>
+              <p>View and update your core account information.</p>
+            </div>
+          </a>
+
+          <a href="change-password.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="10" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Change Password</h3>
+              <p>Keep your account secure with an updated password.</p>
+            </div>
+          </a>
+
+          <a href="profile-details.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="7" r="4" />
+                <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Profile Details</h3>
+              <p>Manage the details clients and contacts can see.</p>
+            </div>
+          </a>
+
+          <a href="contacts.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="9" cy="8" r="4" />
+                <path d="M17 11a4 4 0 1 0 0-8" />
+                <path d="M3 20a6 6 0 0 1 12 0" />
+                <path d="M17 20a6 6 0 0 0-4-5.6" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Contacts</h3>
+              <p>Access and manage your saved people and connections.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKINGS & SERVICES -->
+    <section class="dashboard-section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Bookings & Plans</h2>
+          <p>Everything related to sessions, routines and client activity.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <a href="manage-bookings.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Manage Bookings</h3>
+              <p>View, edit and organise your upcoming bookings.</p>
+            </div>
+          </a>
+
+          <a href="mealplan-output.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M8 2v4" />
+                <path d="M16 2v4" />
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M3 10h18" />
+                <path d="M8 14h3" />
+                <path d="M13 14h3" />
+                <path d="M8 18h3" />
+                <path d="M13 18h3" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Meal Plan</h3>
+              <p>Access your nutrition plans and food guidance.</p>
+            </div>
+          </a>
+
+          <a href="workout-output.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M6.5 9.5v5" />
+                <path d="M17.5 9.5v5" />
+                <path d="M4 8h2.5v8H4" />
+                <path d="M17.5 8H20v8h-2.5" />
+                <path d="M9 6.5v11" />
+                <path d="M15 6.5v11" />
+                <path d="M6.5 12h11" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Workouts</h3>
+              <p>Review your training plans, sessions and progress.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAYMENTS -->
+    <section class="dashboard-section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Payments & Benefits</h2>
+          <p>Manage payment methods, credits and redeemable extras.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <a href="wallet.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="17" cy="12" r="2" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Wallet</h3>
+              <p>Check saved payment methods, balance and transactions.</p>
+            </div>
+          </a>
+
+          <a href="vouchers.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9h18v6H3z" />
+                <path d="M7 9v6M17 9v6" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Vouchers</h3>
+              <p>View, redeem and manage your available vouchers.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="dashboard-section dashboard-section--support">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Support</h2>
+          <p>Need help? Get support or sign out of your account.</p>
+        </div>
+
+        <div class="dashboard-grid dashboard-grid--small">
+          <a href="help-support.html" class="dashboard-tile">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
+                <path d="M12 17h.01" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Help &amp; Support</h3>
+              <p>Get help, answers and support when you need it.</p>
+            </div>
+          </a>
+
+          <a href="logout.html" class="dashboard-tile dashboard-tile--logout">
+            <span class="dashboard-tile__icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <path d="M16 17l5-5-5-5" />
+                <path d="M21 12H9" />
+              </svg>
+            </span>
+            <div class="dashboard-tile__content">
+              <h3>Logout</h3>
+              <p>Sign out securely from your account.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <script>
@@ -408,7 +304,6 @@
       });
   </script>
 
-
-
 </body>
+
 </html>
