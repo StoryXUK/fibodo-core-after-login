@@ -1,11 +1,15 @@
+/* =========================
+   CHANGE PASSWORD MODAL
+   ========================= */
+
 .change-password-modal {
   position: fixed;
   inset: 0;
+  background: rgba(15, 23, 42, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background: rgba(15, 23, 42, 0.55);
+  padding: 24px;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -21,9 +25,256 @@
 
 .change-password-dialog {
   width: 100%;
-  max-width: 560px;
+  max-width: 430px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.22);
+  overflow: hidden;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.25s ease;
+}
+
+.change-password-modal.is-open .change-password-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.change-password-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.change-password-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.change-password-close {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.change-password-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.change-password-close svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.change-password-body {
+  padding: 24px;
+}
+
+.change-password-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.change-password-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.change-password-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: calc(50% + 22px);
+  width: calc(100% - 44px);
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
+  color: #94a3b8;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.change-password-step.active .step-circle {
+  border-color: #0f172a;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+.step-label {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+.change-password-step.active .step-label {
+  color: #475569;
+  font-weight: 600;
+}
+
+.change-password-form-group {
+  margin-bottom: 16px;
+}
+
+.change-password-form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.field-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.password-input-wrap {
+  position: relative;
+}
+
+.password-input-wrap input {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 0 44px 0 14px;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.password-input-wrap input:focus {
+  border-color: #0f172a;
+  background: #fff;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #0f172a;
+}
+
+.password-toggle svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.change-password-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 8px;
+}
+
+.modal-btn {
+  height: 40px;
+  min-width: 100px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #0f172a;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+.modal-btn:hover {
+  background: #f8fafc;
+}
+
+.modal-btn-primary {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #fff;
+}
+
+.modal-btn-primary:hover {
+  background: #1e293b;
+  border-color: #1e293b;
 }
 
 body.modal-open {
   overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .change-password-dialog {
+    border-radius: 16px;
+  }
+
+  .change-password-body,
+  .change-password-header {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .change-password-footer {
+    flex-direction: column;
+  }
+
+  .modal-btn {
+    width: 100%;
+  }
 }

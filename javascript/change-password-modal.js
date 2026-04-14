@@ -82,8 +82,8 @@
     openModal();
   });
 
+  // Modal HTML is fetched async — wire up once it's injected into the DOM
   document.addEventListener('changePasswordModalLoaded', setupModal);
-  document.addEventListener('DOMContentLoaded', setupModal);
 
   window.openChangePasswordModal = openModal;
   window.closeChangePasswordModal = closeModal;
