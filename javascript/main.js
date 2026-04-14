@@ -574,3 +574,138 @@
   });
 
 
+
+
+
+  // Call Header
+
+  async function loadHeader() {
+    const headerTarget = document.getElementById("site-header");
+    if (!headerTarget) return;
+
+    try {
+      const response = await fetch("nav.html", { cache: "no-cache" });
+      if (!response.ok) throw new Error(`Failed to load nav.html: ${response.status}`);
+
+      const html = await response.text();
+      headerTarget.innerHTML = html;
+
+      initHeaderInteractions();
+    } catch (error) {
+      console.error("Header load error:", error);
+    }
+  }
+
+  function initHeaderInteractions() {
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    const navOverlay = document.getElementById("navOverlay");
+    const profileDropdowns = document.querySelectorAll(".profile-dropdown");
+    const openChangePasswordLinks = document.querySelectorAll(".open-change-password");
+    const changePasswordModal = document.getElementById("changePasswordModal");
+    const closeChangePassword = document.getElementById("closeChangePassword");
+    const cancelChangePassword = document.getElementById("cancelChangePassword");
+    const changePasswordForm = document.getElementById("changePasswordForm");
+
+    if (navToggle && mainNav && navOverlay) {
+      navToggle.addEventListener("click", function () {
+        mainNav.classList.toggle("open");
+        navOverlay.classList.toggle("visible");
+        navToggle.classList.toggle("open");
+      });
+
+      navOverlay.addEventListener("click", function () {
+        mainNav.classList.remove("open");
+        navOverlay.classList.remove("visible");
+        navToggle.classList.remove("open");
+      });
+    }
+
+    profileDropdowns.forEach((dropdown) => {
+      const toggle = dropdown.querySelector(".profile-toggle");
+      if (!toggle) return;
+
+      toggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+
+        profileDropdowns.forEach((item) => {
+          if (item !== dropdown) item.classList.remove("active");
+        });
+
+        dropdown.classList.toggle("active");
+      });
+    });
+
+    document.addEventListener("click", function () {
+      profileDropdowns.forEach((dropdown) => {
+        dropdown.classList.remove("active");
+      });
+    });
+
+    function openPasswordModal(e) {
+      e.preventDefault();
+
+      if (!changePasswordModal) return;
+
+      changePasswordModal.classList.add("active");
+      changePasswordModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+
+      profileDropdowns.forEach((dropdown) => {
+        dropdown.classList.remove("active");
+      });
+    }
+
+    function closePasswordModalFn() {
+      if (!changePasswordModal) return;
+
+      changePasswordModal.classList.remove("active");
+      changePasswordModal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    openChangePasswordLinks.forEach((link) => {
+      link.addEventListener("click", openPasswordModal);
+    });
+
+    if (closeChangePassword) {
+      closeChangePassword.addEventListener("click", closePasswordModalFn);
+    }
+
+    if (cancelChangePassword) {
+      cancelChangePassword.addEventListener("click", closePasswordModalFn);
+    }
+
+    if (changePasswordModal) {
+      changePasswordModal.addEventListener("click", function (e) {
+        if (e.target === changePasswordModal) {
+          closePasswordModalFn();
+        }
+      });
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && changePasswordModal?.classList.contains("active")) {
+        closePasswordModalFn();
+      }
+    });
+
+    document.querySelectorAll(".password-toggle").forEach((button) => {
+      button.addEventListener("click", function () {
+        const targetId = button.getAttribute("data-target");
+        const input = targetId ? document.getElementById(targetId) : null;
+        if (!input) return;
+
+        input.type = input.type === "password" ? "text" : "password";
+      });
+    });
+
+    if (changePasswordForm) {
+      changePasswordForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        closePasswordModalFn();
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadHeader);
