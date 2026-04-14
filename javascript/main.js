@@ -456,29 +456,50 @@
 // dropdown after login
 
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const dropdowns = document.querySelectorAll(".profile-dropdown");
+document.addEventListener("DOMContentLoaded", function () {
+  const dropdowns = document.querySelectorAll(".profile-dropdown");
 
-    dropdowns.forEach((dropdown) => {
-      const toggle = dropdown.querySelector(".profile-toggle");
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
 
-      toggle.addEventListener("click", function (e) {
-        e.stopPropagation();
+  dropdowns.forEach((dropdown) => {
+    const toggle = dropdown.querySelector(".profile-toggle");
+    if (!toggle) return;
 
-        dropdowns.forEach((item) => {
-          if (item !== dropdown) item.classList.remove("active");
-        });
+    toggle.addEventListener("click", function (e) {
+      if (isMobile() && dropdown.classList.contains("mobile-profile-dropdown")) {
+        return;
+      }
 
-        dropdown.classList.toggle("active");
+      e.stopPropagation();
+
+      dropdowns.forEach((item) => {
+        if (item !== dropdown) item.classList.remove("active");
       });
-    });
 
-    document.addEventListener("click", function () {
-      dropdowns.forEach((dropdown) => {
-        dropdown.classList.remove("active");
-      });
+      dropdown.classList.toggle("active");
     });
   });
+
+  document.addEventListener("click", function () {
+    if (isMobile()) return;
+
+    dropdowns.forEach((dropdown) => {
+      dropdown.classList.remove("active");
+    });
+  });
+
+  window.addEventListener("resize", function () {
+    if (isMobile()) {
+      dropdowns.forEach((dropdown) => {
+        if (!dropdown.classList.contains("mobile-profile-dropdown")) {
+          dropdown.classList.remove("active");
+        }
+      });
+    }
+  });
+});
 
 
   // booking portal only
