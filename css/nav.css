@@ -473,6 +473,8 @@ header {
 
   .main-nav {
     position: fixed;
+    transform: none;
+    left: auto;
     top: 0;
     right: -320px;
     width: 320px;
