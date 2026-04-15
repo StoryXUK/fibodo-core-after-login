@@ -257,8 +257,8 @@ header {
 
 .mobile-profile-link {
   display: none;
-  align-items: right;
-  justify-content: right;
+  align-items: center;
+  justify-content: center;
   width: 38px;
   height: 38px;
   border-radius: 50%;
