@@ -4,77 +4,826 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>fibodo — Client Page</title>
+  <title>fibodo — On Demand</title>
+
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/modal.css">
+
+  <style>
+    :root {
+      --portal-bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-alt: #f3f5f9;
+      --text-main: #101828;
+      --text-soft: #667085;
+      --border-soft: #e6eaf2;
+      --shadow-soft: 0 10px 30px rgba(16, 24, 40, 0.06);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --brand: #111111;
+      --brand-2: #2f6fed;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--portal-bg);
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    .stream-page {
+      min-height: 100vh;
+      padding: 32px 20px 60px;
+    }
+
+    .stream-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .page-subtitle {
+      margin: 10px 0 0;
+      color: var(--text-soft);
+      font-size: 1rem;
+    }
+
+    .page-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border-soft);
+      background: #fff;
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+
+    .hero-feature {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      min-height: 420px;
+      background:
+        linear-gradient(90deg, rgba(16,24,40,0.82) 0%, rgba(16,24,40,0.62) 36%, rgba(16,24,40,0.18) 72%, rgba(16,24,40,0.04) 100%),
+        url('images/on-demand-hero.jpg') center/cover no-repeat;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 28px;
+    }
+
+    .hero-feature::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.04) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 36px;
+      max-width: 620px;
+      color: #fff;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-text {
+      margin: 16px 0 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.9);
+      max-width: 560px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    .hero-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .hero-actions .btn {
+      box-shadow: none;
+    }
+
+    .hero-actions .btn:not(.btn-primary) {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border-color: rgba(255,255,255,0.18);
+      backdrop-filter: blur(10px);
+    }
+
+    .top-tools {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .search-card,
+    .filters-card {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 56px;
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 0 18px;
+      background: var(--surface-alt);
+      font: inherit;
+      font-size: 0.98rem;
+      outline: none;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #fff;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+    }
+
+    .pill.active {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .rail-section {
+      margin-top: 30px;
+    }
+
+    .rail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .rail-title {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .rail-link {
+      text-decoration: none;
+      color: var(--brand-2);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .card-rail {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(16, 24, 40, 0.1);
+    }
+
+    .video-thumb {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, #dde5f3, #cfd8ea);
+      overflow: hidden;
+    }
+
+    .video-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .play-badge {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(17,17,17,0.88);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .duration-badge {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.94);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .video-body {
+      padding: 16px;
+    }
+
+    .video-category {
+      margin: 0 0 6px;
+      color: var(--brand-2);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .video-title {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .video-desc {
+      margin: 10px 0 0;
+      color: var(--text-soft);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .video-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .video-level {
+      color: var(--text-soft);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .progress {
+      position: relative;
+      width: 94px;
+      height: 7px;
+      border-radius: 999px;
+      background: #e9edf5;
+      overflow: hidden;
+    }
+
+    .progress > span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 48%;
+      background: var(--brand);
+      border-radius: inherit;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      padding: 22px;
+    }
+
+    .panel-title {
+      margin: 0 0 14px;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .continue-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .continue-item {
+      display: grid;
+      grid-template-columns: 116px 1fr;
+      gap: 14px;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      padding: 10px;
+      border-radius: 18px;
+      background: var(--surface-alt);
+    }
+
+    .continue-thumb {
+      aspect-ratio: 16 / 10;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #d7dfec, #c7d1e5);
+    }
+
+    .continue-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .continue-title {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .continue-meta {
+      margin: 0 0 10px;
+      color: var(--text-soft);
+      font-size: 0.88rem;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .category-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 58px;
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 0 16px;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+    }
+
+    .category-row span:first-child {
+      font-weight: 700;
+    }
+
+    .category-row span:last-child {
+      color: var(--text-soft);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1100px) {
+      .card-rail {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .top-tools,
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .stream-page {
+        padding: 24px 16px 44px;
+      }
+
+      .page-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-feature {
+        min-height: 360px;
+      }
+
+      .hero-content {
+        padding: 24px;
+      }
+
+      .card-rail {
+        grid-template-columns: 1fr;
+      }
+
+      .continue-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  
-
   <div id="site-header"></div>
 
-  <main>
+  <main class="stream-page">
+    <div class="stream-shell">
 
-   <img src="images/on-demand.jpg">
-
-<script src='https://cdn.jotfor.ms/agent/embedjs/01950473f8497d4fb986378cc3dd8a5ef567/embed.js'>
-</script>
-  </main>
-
-  <footer>
-    <div class="footer-container">
-
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <a href="#" id="openContactModal">Contact Form</a>
-         
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">On Demand</h1>
+          <p class="page-subtitle">Stream classes, training sessions and wellbeing content whenever it suits you.</p>
         </div>
-        <div class="footer-col">
-          <h4>Content</h4>
-          <a href="blog.html">Blog</a>
-          <a href="mealplan-output.html">Meal Plan</a>
-          <a href="workout-output.html">Workouts</a>
-          <a href="recipes.html">Recipes</a>
-          <a href="on-demand.html">On Demand</a>
+
+        <div class="page-actions">
+          <a href="dashboard.html" class="btn">Back to Dashboard</a>
+          <a href="#" class="btn btn-primary">My List</a>
         </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Cookies</a>
-        </div>
-        <div class="footer-col footer-socials">
-          <h4>Socials</h4>
-          <div class="social-icons">
-            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1.5"></circle></svg></a>
-            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l6.5 8L4 20h2l5.5-6.8L16 20h4l-6.8-8.5L20 4h-2l-5.2 6.4L8 4H4z"></path></svg></a>
-            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
-            <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+      </div>
+
+      <section class="hero-feature">
+        <div class="hero-content">
+          <div class="hero-kicker">Featured Series</div>
+          <h2 class="hero-title">Morning Mobility Reset</h2>
+          <p class="hero-text">
+            Start your day with guided movement, mobility and breathwork sessions designed to help you feel stronger,
+            looser and more energised in just 15 minutes.
+          </p>
+
+          <div class="hero-meta">
+            <span class="hero-chip">12 Episodes</span>
+            <span class="hero-chip">Beginner Friendly</span>
+            <span class="hero-chip">Mobility & Recovery</span>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary">Play Now</a>
+            <a href="#" class="btn">Add to Watchlist</a>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="footer-bottom">
-        <div>
-          © 2026 Business Name. All rights reserved. Powered by <a target="_blank" href="https://fibodo.com/">fibodo</a>
+      <section class="top-tools">
+        <div class="search-card">
+          <input class="search-input" type="text" placeholder="Search videos, classes or instructors">
         </div>
 
-        
-      </div>
+        <div class="filters-card">
+          <div class="filter-pills">
+            <a href="#" class="pill active">All</a>
+            <a href="#" class="pill">Yoga</a>
+            <a href="#" class="pill">Strength</a>
+            <a href="#" class="pill">Meditation</a>
+            <a href="#" class="pill">Pilates</a>
+            <a href="#" class="pill">Recovery</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="rail-section">
+        <div class="rail-head">
+          <h3 class="rail-title">Trending Now</h3>
+          <a href="#" class="rail-link">View all</a>
+        </div>
+
+        <div class="card-rail">
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-1.jpg" alt="Yoga flow">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">24 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Yoga</p>
+              <h4 class="video-title">Full Body Flow for Energy</h4>
+              <p class="video-desc">A smooth guided flow to wake up the body and improve flexibility.</p>
+              <div class="video-footer">
+                <span class="video-level">Beginner</span>
+                <div class="progress"><span></span></div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-2.jpg" alt="Strength">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">31 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Strength</p>
+              <h4 class="video-title">Athletic Strength Circuit</h4>
+              <p class="video-desc">A smart full-body workout focused on control, stability and power.</p>
+              <div class="video-footer">
+                <span class="video-level">Intermediate</span>
+                <div class="progress"><span style="width:68%"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-3.jpg" alt="Meditation">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">12 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Mindset</p>
+              <h4 class="video-title">Guided Reset Meditation</h4>
+              <p class="video-desc">A short calming practice to help reduce stress and regain focus.</p>
+              <div class="video-footer">
+                <span class="video-level">All Levels</span>
+                <div class="progress"><span style="width:22%"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-4.jpg" alt="Recovery">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">18 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Recovery</p>
+              <h4 class="video-title">Post-Workout Stretch Session</h4>
+              <p class="video-desc">Ease tension, open up the hips and reset after training.</p>
+              <div class="video-footer">
+                <span class="video-level">Beginner</span>
+                <div class="progress"><span style="width:0%"></span></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="rail-section">
+        <div class="rail-head">
+          <h3 class="rail-title">Recommended For You</h3>
+          <a href="#" class="rail-link">View all</a>
+        </div>
+
+        <div class="card-rail">
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-5.jpg" alt="Pilates">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">27 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Pilates</p>
+              <h4 class="video-title">Core Control Foundations</h4>
+              <p class="video-desc">Build strength through the centre with slow, precise movements.</p>
+              <div class="video-footer">
+                <span class="video-level">Beginner</span>
+                <div class="progress"><span style="width:14%"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-6.jpg" alt="Breathwork">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">10 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Breathwork</p>
+              <h4 class="video-title">Calm & Focus Breath Session</h4>
+              <p class="video-desc">A quick session for clarity, calm and improved concentration.</p>
+              <div class="video-footer">
+                <span class="video-level">All Levels</span>
+                <div class="progress"><span style="width:52%"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-7.jpg" alt="Strength">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">36 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Conditioning</p>
+              <h4 class="video-title">Lower Body Power Builder</h4>
+              <p class="video-desc">Strength and conditioning work to develop power and stability.</p>
+              <div class="video-footer">
+                <span class="video-level">Intermediate</span>
+                <div class="progress"><span style="width:0%"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="video-card">
+            <div class="video-thumb">
+              <img src="images/video-8.jpg" alt="Yoga restore">
+              <div class="play-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 6l10 6-10 6V6z" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="duration-badge">22 min</div>
+            </div>
+            <div class="video-body">
+              <p class="video-category">Restore</p>
+              <h4 class="video-title">Evening Wind Down Flow</h4>
+              <p class="video-desc">A slower session designed to release tension and prepare for rest.</p>
+              <div class="video-footer">
+                <span class="video-level">All Levels</span>
+                <div class="progress"><span style="width:76%"></span></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="split-grid">
+        <div class="panel">
+          <h3 class="panel-title">Continue Watching</h3>
+
+          <div class="continue-list">
+            <a href="#" class="continue-item">
+              <div class="continue-thumb">
+                <img src="images/video-9.jpg" alt="Mobility session">
+              </div>
+              <div>
+                <h4 class="continue-title">Mobility for Desk Recovery</h4>
+                <p class="continue-meta">You’re 48% through · 16 min remaining</p>
+                <div class="progress"><span style="width:48%"></span></div>
+              </div>
+            </a>
+
+            <a href="#" class="continue-item">
+              <div class="continue-thumb">
+                <img src="images/video-10.jpg" alt="Pilates session">
+              </div>
+              <div>
+                <h4 class="continue-title">Pilates Flow for Posture</h4>
+                <p class="continue-meta">You’re 72% through · 8 min remaining</p>
+                <div class="progress"><span style="width:72%"></span></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">Browse Categories</h3>
+
+          <div class="category-list">
+            <a href="#" class="category-row">
+              <span>Yoga & Mobility</span>
+              <span>28 videos</span>
+            </a>
+            <a href="#" class="category-row">
+              <span>Strength & Conditioning</span>
+              <span>19 videos</span>
+            </a>
+            <a href="#" class="category-row">
+              <span>Meditation & Mindset</span>
+              <span>14 videos</span>
+            </a>
+            <a href="#" class="category-row">
+              <span>Pilates & Core</span>
+              <span>21 videos</span>
+            </a>
+            <a href="#" class="category-row">
+              <span>Recovery & Stretch</span>
+              <span>16 videos</span>
+            </a>
+          </div>
+        </div>
+      </section>
 
     </div>
-  </footer>
-<div id="change-password-modal-root"></div>
+  </main>
 
-<script src="javascript/main.js"></script>
-  <script src="javascript/change-password-modal.js"></script>
-  <script src="javascript/modal-loader.js"></script>
-  
+  <script src="javascript/main.js"></script>
 </body>
-
 </html>
