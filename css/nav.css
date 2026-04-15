@@ -621,7 +621,6 @@ header {
     font-size: 15px;
     padding: 13px 0;
     width: 100%;
-    border-bottom: 1px solid var(--border);
     color: var(--text);
     text-decoration: none;
     background: transparent;
