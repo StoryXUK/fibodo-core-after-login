@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>fibodo — Upcoming Bookings</title>
+  <link rel="stylesheet" href="css/upcoming-bookings.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <main class="page">
+    <div class="page-inner">
+
+      <a href="dashboard.html" class="back-link">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        Go Back
+      </a>
+
+      <h1 class="page-title">Upcoming Bookings</h1>
+      <p class="page-subtitle">View and manage your future bookings</p>
+
+      <section class="card">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
+          <button class="tab-btn" data-tab="past">Past</button>
+          <button class="tab-btn" data-tab="cancelled">Cancelled</button>
+        </div>
+
+        <div class="tab-panel active" id="upcoming">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Upcoming sessions</h2>
+              <p class="panel-subtitle">Your next confirmed bookings</p>
+            </div>
+
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M20 20l-3.5-3.5"></path>
+              </svg>
+              <input type="text" class="search-input" placeholder="Search bookings...">
+            </div>
+          </div>
+
+          <div class="booking-list">
+            <article class="booking-item">
+              <div class="booking-main">
+                <div class="booking-top">
+                  <h3 class="booking-title">1:1 Personal Training</h3>
+                  <span class="status-pill upcoming">Confirmed</span>
+                </div>
+
+                <div class="booking-meta">
+                  <span>
+                    <svg viewBox="0 0 24 24">
+                      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                      <path d="M16 2v4M8 2v4M3 10h18"></path>
+                    </svg>
+                    Tue 16 Apr 2026
+                  </span>
+
+                  <span>
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 3"></path>
+                    </svg>
+                    07:00 AM
+                  </span>
+
+                  <span>
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10z"></path>
+                      <circle cx="12" cy="11" r="2.5"></circle>
+                    </svg>
+                    London Studio
+                  </span>
+                </div>
+              </div>
+
+              <div class="booking-actions">
+                <a href="#" class="btn">View</a>
+                <a href="#" class="btn btn-primary">Manage</a>
+              </div>
+            </article>
+
+            <article class="booking-item">
+              <div class="booking-main">
+                <div class="booking-top">
+                  <h3 class="booking-title">Bikram Yoga Class</h3>
+                  <span class="status-pill upcoming">Confirmed</span>
+                </div>
+
+                <div class="booking-meta">
+                  <span>
+                    <svg viewBox="0 0 24 24">
+                      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                      <path d="M16 2v4M8 2v4M3 10h18"></path>
+                    </svg>
+                    Thu 18 Apr 2026
+                  </span>
+
+                  <span>
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 3"></path>
+                    </svg>
+                    06:30 PM
+                  </span>
+
+                  <span>
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10z"></path>
+                      <circle cx="12" cy="11" r="2.5"></circle>
+                    </svg>
+                    Harmony Yoga
+                  </span>
+                </div>
+              </div>
+
+              <div class="booking-actions">
+                <a href="#" class="btn">View</a>
+                <a href="#" class="btn btn-primary">Manage</a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="past">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Past bookings</h2>
+              <p class="panel-subtitle">Sessions you have already attended</p>
+            </div>
+          </div>
+
+          <div class="empty-state">
+            <div class="empty-pill">No past bookings found</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cancelled">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Cancelled bookings</h2>
+              <p class="panel-subtitle">Sessions that were cancelled or missed</p>
+            </div>
+          </div>
+
+          <div class="empty-state">
+            <div class="empty-pill">No cancelled bookings</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div id="change-password-modal-root"></div>
+
+  <script src="javascript/main.js"></script>
+  <script src="javascript/change-password-modal.js"></script>
+  <script src="javascript/modal-loader.js"></script>
+</body>
+
+</html>
