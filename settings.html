@@ -9,80 +9,279 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/modal.css">
-  <link rel="stylesheet" href="css/account-details.css">
+
+  <style>
+    :root {
+      --page-bg: #f3f3f4;
+      --card-bg: #ffffff;
+      --text-main: #1f2328;
+      --text-soft: #a9a9ae;
+      --text-mid: #5c6168;
+      --border-soft: #ececef;
+      --brand-blue: #2f80ed;
+      --radius-xl: 24px;
+      --radius-lg: 20px;
+      --shadow-soft: 0 8px 24px rgba(16, 24, 40, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    .settings-page {
+      min-height: 100vh;
+      padding: 34px 20px 60px;
+    }
+
+    .settings-wrap {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .settings-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      padding: 30px 30px 34px;
+      min-height: calc(100vh - 120px);
+    }
+
+    .settings-title {
+      margin: 0 0 42px;
+      font-size: 2rem;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .prefs-group + .prefs-group {
+      margin-top: 26px;
+    }
+
+    .prefs-heading {
+      margin: 0 0 18px;
+      font-size: 1.15rem;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .prefs-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .pref-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    .pref-row.disabled {
+      color: #bdbdc2;
+    }
+
+    .pref-row input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      margin: 2px 0 0;
+      border-radius: 6px;
+      border: 2px solid #d5d7dc;
+      background: #fff;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .pref-row input[type="checkbox"]:checked {
+      background: var(--brand-blue);
+      border-color: var(--brand-blue);
+    }
+
+    .pref-row input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .pref-row input[type="checkbox"]:disabled {
+      background: #f3f3f4;
+      border-color: #d9d9de;
+      cursor: not-allowed;
+    }
+
+    .pref-row input[type="checkbox"]:disabled:checked::after {
+      border-color: #bdbdc2;
+    }
+
+    .pref-label {
+      display: block;
+      padding-top: 1px;
+      cursor: pointer;
+    }
+
+    .pref-row.disabled .pref-label {
+      cursor: not-allowed;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid #d7d9de;
+      background: #fff;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #111111;
+      color: #fff;
+      border-color: #111111;
+    }
+
+    @media (max-width: 768px) {
+      .settings-page {
+        padding: 16px 16px 110px;
+      }
+
+      .settings-card {
+        border-radius: 20px 20px 0 0;
+        min-height: auto;
+        padding: 24px 20px 30px;
+      }
+
+      .settings-title {
+        margin-bottom: 30px;
+        font-size: 1.7rem;
+      }
+
+      .pref-row {
+        font-size: 0.98rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
   <div id="site-header"></div>
 
-  <main class="account-page">
-    <div class="container">
+  <main class="settings-page">
+    <div class="settings-wrap">
+      <div class="settings-card">
 
-      <h1 class="page-title">Account Details</h1>
-      <p class="page-subtitle">View and manage your current user profile</p>
+        <h1 class="settings-title">Settings and Preferences</h1>
 
-      <div class="profile-hero-card">
-        <div class="profile-hero-left">
-          <div class="profile-avatar-wrap">
-            <img src="images/logo.png" alt="Harmony Yoga">
+        <section class="prefs-group">
+          <h2 class="prefs-heading">Email Notifications</h2>
+
+          <div class="prefs-list">
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Booking confirmations</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Booking cancellations</span>
+            </label>
+
+            <label class="pref-row disabled">
+              <input type="checkbox" checked disabled>
+              <span class="pref-label">System updates</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Receive an email notification 48 hours before an activity starts</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Receive an email notification when a Provider message is sent to you</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Receive an email notification when a booking notice is sent to you</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Receive an email notification when a message is sent to you from your Contact list</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Receive marketing / promotional emails</span>
+            </label>
           </div>
-          <div>
-            <h2 class="profile-hero-name">James Murphy</h2>
-            <p class="profile-hero-label">Member</p>
+        </section>
+
+        <section class="prefs-group">
+          <h2 class="prefs-heading">Push Notifications</h2>
+
+          <div class="prefs-list">
+            <label class="pref-row disabled">
+              <input type="checkbox" checked disabled>
+              <span class="pref-label">Payment confirmations</span>
+            </label>
+
+            <label class="pref-row disabled">
+              <input type="checkbox" checked disabled>
+              <span class="pref-label">Activity cancellations</span>
+            </label>
+
+            <label class="pref-row disabled">
+              <input type="checkbox" checked disabled>
+              <span class="pref-label">System updates</span>
+            </label>
+
+            <label class="pref-row">
+              <input type="checkbox" checked>
+              <span class="pref-label">Receive marketing / promotional push notifications</span>
+            </label>
           </div>
-        </div>
-        <button class="profile-refresh-btn" aria-label="Refresh profile">
-          <svg viewBox="0 0 24 24">
-            <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
-            <path d="M21 3v6h-6"></path>
-          </svg>
-        </button>
-      </div>
+        </section>
 
-      <div class="account-tabs-card">
-        
-
-        <div class="tab-panel active">
-          <div class="section-header">
-            <div>
-              <h3 class="section-title">Settings</h3>
-              <p class="section-subtitle">Update your communication preferences</p>
-            </div>
-          </div>
-
-          <div class="settings-toggles">
-            <div class="setting-item">
-              <div class="setting-row">
-                <div>
-                  <h4 class="setting-title">Email Notifications</h4>
-                  <p class="setting-meta">Receive updates about bookings, reminders and membership changes</p>
-                </div>
-                <label class="switch">
-                  <input type="checkbox" checked>
-                  <span class="switch-slider"></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="setting-item">
-              <div class="setting-row">
-                <div>
-                  <h4 class="setting-title">SMS Notifications</h4>
-                  <p class="setting-meta">Receive class reminders and important account alerts by text</p>
-                </div>
-                <label class="switch">
-                  <input type="checkbox">
-                  <span class="switch-slider"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-actions">
-            <button class="btn btn-primary">Save Settings</button>
-            <button class="btn">Cancel</button>
-          </div>
+        <div class="actions">
+          <button class="btn btn-primary">Save Settings</button>
+          <button class="btn">Cancel</button>
         </div>
 
       </div>
